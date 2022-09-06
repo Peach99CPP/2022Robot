@@ -1,0 +1,25 @@
+<<<<<<< HEAD
+/Driver/chassis.h.orig
+/Driver/*.h.orig
+/*/*.*.orig
+.0110llx
+=======
+# Build and Release Folders
+bin-debug/
+bin-release/
+[Oo]bj/
+[Bb]in/
+
+# Other files and folders
+.settings/
+
+# Executables
+*.swf
+*.air
+*.ipa
+*.apk
+
+# Project files, i.e. `.project`, `.actionScriptProperties` and `.flexProperties`
+# should NOT be excluded as they contain compiler settings and other important
+# information for Eclipse / Flash Builder.
+>>>>>>> 27cce8297898329b4aa3848e77fb6ee7a09d302d
