@@ -23,9 +23,9 @@
 pid_data_t imu_data, anglekeep_data;
 pid_paramer_t imu_para =
     {
-        .kp = 2,
-        .ki = 0,
-        .kd = 1,
+        .kp = 6.5,
+        .ki = 0.1,
+        .kd = 0,
         .integrate_max = 70,
         .control_output_limit = 300};
 
@@ -145,8 +145,9 @@ void Turn_angle(int mode, int angle, int track_enabled)
     angle = angle_limit(angle);
     //相对角度模式
     if (mode == 1)
-    { //      imu.target_angle = angle_limit(imu.get_angle() + angle);
-      imu.target_angle = angle_limit(angle);
+    {
+      imu.target_angle = angle_limit(imu.get_angle() + angle);
+      // imu.target_angle = angle_limit(angle);
     }
     //绝对角度模式
     else if (mode == 2)
