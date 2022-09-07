@@ -166,7 +166,7 @@ void chassis_synthetic_control(void)
     {
         fn = 1;
     }
-    int MaxVal = 80 + 0.35 * (fabs(chassis.x_speed) + fabs(chassis.y_speed));
+    int MaxVal = 300 + 0.35 * (fabs(chassis.x_speed) + fabs(chassis.y_speed));
     if (fabs(w_error) > MaxVal)
     {
         w_error = fn * MaxVal;
@@ -206,6 +206,7 @@ void chassis_synthetic_control(void)
 
     for (i = 1; i <= 4; ++i)
     {
+        //TODO 这里我进行了修改 将两个参数重置为一个
         /*
          *对电机进行遍历
          *首先获取转速期待值
@@ -217,11 +218,11 @@ void chassis_synthetic_control(void)
         motor_data[i].feedback = read_encoder(i);
         if (i == 2)
         {
-            control_val[i] = pid_control(&motor_data[i], &motor_param1);
+            control_val[i] = pid_control(&motor_data[i], &motor_param);
         }
         if (i == 4)
         {
-            control_val[i] = pid_control(&motor_data[i], &motor_param1);
+            control_val[i] = pid_control(&motor_data[i], &motor_param);
         }
         if (i == 1)
         {
@@ -238,12 +239,12 @@ void chassis_synthetic_control(void)
         set_motor(i, control_val[i]);
     }
 
-    printf("%f      ,%f       ,%f        ,%f        ,%f\r\n", fabs(read_encoder(1)), fabs(read_encoder(2)), fabs(read_encoder(3)), fabs(read_encoder(4)), motor_target[1]);
+    // printf("%f      ,%f       ,%f        ,%f        ,%f\r\n", fabs(read_encoder(1)), fabs(read_encoder(2)), fabs(read_encoder(3)), fabs(read_encoder(4)), motor_target[1]);
 
     if (debug_motor_id!=0) //循迹状态下
     {
         if( read_encoder(debug_motor_id)!=0)
-        printf("%.2lf,%.2f\r\n", motor_data[debug_motor_id].feedback, chassis.y_speed);
+        printf("%.2lf , %.2f \r\n", motor_data[debug_motor_id].feedback, motor_data[debug_motor_id].expect);
        //printf("%.2f  %.2f ", motor_data[debug_motor_id].feedback, motor_data[debug_motor_id].expect);
        //printf("\r\n");
         else

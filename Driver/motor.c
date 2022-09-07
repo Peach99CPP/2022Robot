@@ -27,8 +27,8 @@ pid_paramer_t motor_param1;
 //�����޷��ſ��������ó������ж���
 float param_[5] = {4000,
                    9900,
-                   140,
-                   10,
+                   310,
+                   0.04,
                    0};    //这里调的是左边轮子的PID
 float param1_[5] = {4000, //���3��PIDֵ����
                     9900,
@@ -473,7 +473,7 @@ void set_debug_motor(int status, int motor_id)
 
 void motor_debug(void)
 {
-    if (debug_speed != 0) //ȷ������debugģʽ�£���Ҫ�����õ�����
+    if (switch_status != 0) //ȷ������debugģʽ�£���Ҫ�����õ�����
     {
         set_speed(0, debug_speed, 0);
         osDelay(1000);
@@ -511,7 +511,7 @@ void set_motor_pid(int kp, int ki, int kd)
 {
     clear_motor_data();
     motor_param.kp = kp;
-    motor_param.ki = (int)(ki/1000.0);
+    motor_param.ki = (ki/1000.0);
     motor_param.kd = kd;
 }
 
@@ -519,7 +519,7 @@ void set_motor_pid1(int kp, int ki, int kd)
 {
     clear_motor_data();
     motor_param1.kp = kp;
-    motor_param1.ki = (int)(ki/1000.0);
+    motor_param1.ki = (ki/1000.0);
     motor_param1.kd = kd;
 }
 
