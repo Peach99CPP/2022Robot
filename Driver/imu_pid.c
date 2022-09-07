@@ -26,7 +26,7 @@ pid_paramer_t imu_para =
         .kp = 2,
         .ki = 0,
         .kd = 1,
-        .integrate_max = 60,
+        .integrate_max = 70,
         .control_output_limit = 300};
 
 extern ATK_IMU_t imu;
@@ -59,17 +59,10 @@ float imu_correct_val(void)
     // i=now_angle;
 
     //取最优路径
-    while (1)
-    {
-      if (now_angle - imu.target_angle > 180)
-        now_angle -= 360;
-      if (now_angle - imu.target_angle < -180)
-        now_angle += 360;
-      if (ABS(now_angle - imu.target_angle) <= 180)
-      {
-        break;
-      }
-    }
+    if (now_angle - imu.target_angle > 180)
+      now_angle -= 360;
+    if (now_angle - imu.target_angle < -180)
+      now_angle += 360;
     imu_data.feedback = now_angle;
     if (fabs(angle_limit(now_angle - imu.target_angle)) < 3)
       if_completed = 1;
