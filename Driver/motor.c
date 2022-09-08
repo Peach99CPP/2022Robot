@@ -430,8 +430,8 @@ void clear_motor_data(void)
     for (uint8_t i = 1; i <= 4; ++i)
     {
         pid_clear(&motor_data[i]);
-        encoder_val[i] = 0;
-        set_motor(i, 0);
+        // encoder_val[i] = 0;
+        // set_motor(i, 0);
         status_flag[i] = 0;
     }
     //�������ò���������

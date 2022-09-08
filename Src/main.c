@@ -1,21 +1,21 @@
 /* USER CODE BEGIN Header */
 /**
-  ******************************************************************************
-  * @file           : main.c
-  * @brief          : Main program body
-  ******************************************************************************
-  * @attention
-  *
-  * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
-  * All rights reserved.</center></h2>
-  *
-  * This software component is licensed by ST under BSD 3-Clause license,
-  * the "License"; You may not use this file except in compliance with the
-  * License. You may obtain a copy of the License at:
-  *                        opensource.org/licenses/BSD-3-Clause
-  *
-  ******************************************************************************
-  */
+ ******************************************************************************
+ * @file           : main.c
+ * @brief          : Main program body
+ ******************************************************************************
+ * @attention
+ *
+ * <h2><center>&copy; Copyright (c) 2021 STMicroelectronics.
+ * All rights reserved.</center></h2>
+ *
+ * This software component is licensed by ST under BSD 3-Clause license,
+ * the "License"; You may not use this file except in compliance with the
+ * License. You may obtain a copy of the License at:
+ *                        opensource.org/licenses/BSD-3-Clause
+ *
+ ******************************************************************************
+ */
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -112,7 +112,7 @@ int main(void)
   MX_USART6_UART_Init();
   /* USER CODE BEGIN 2 */
 
-    USER_Init();
+  USER_Init();
   /* USER CODE END 2 */
 
   /* Call init function for freertos objects (in freertos.c) */
@@ -123,14 +123,13 @@ int main(void)
   /* We should never get here as control is now taken by the scheduler */
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
-    while (1)
-    {
+  while (1)
+  {
 
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-      
-    }
+  }
   /* USER CODE END 3 */
 }
 
@@ -204,25 +203,25 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 void USER_Init(void)
 {
-    track_bar_init();//循迹版的使能
-    //开启外设用到的串口，后续移入到对应的函数
-    __HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE);//调试信息
-    __HAL_UART_ENABLE_IT(&huart3, UART_IT_RXNE);//二维码的接收串口
-    __HAL_UART_ENABLE_IT(&huart4, UART_IT_RXNE);//openmv接收
-    __HAL_UART_ENABLE_IT(&huart5, UART_IT_RXNE);//舵控的接收
-    // Get_Time_Init();//系统时间
-    ATK_IMU_Init();//陀螺仪初始化
-    delay_init(&htim6, up_count);//使能delay
-    usmart_dev.init(216);//开启USMART
-    Motor_PID_Init();//赋值电机PID
-    Motor_PID1_Init();//赋值电机3的PID
-    set_chassis_status(1);//底盘使能
-    motor_init();//电机变量的赋值
-    //队列初始化
-    printf_init();
-    //关闭循迹版
-    track_status(1, 0);
-    track_status(2, 0);
+  track_bar_init(); //循迹版的使能
+  //开启外设用到的串口，后续移入到对应的函数
+  __HAL_UART_ENABLE_IT(&huart1, UART_IT_RXNE); //调试信息
+  __HAL_UART_ENABLE_IT(&huart3, UART_IT_RXNE); //二维码的接收串口
+  __HAL_UART_ENABLE_IT(&huart4, UART_IT_RXNE); // openmv接收
+  __HAL_UART_ENABLE_IT(&huart5, UART_IT_RXNE); //舵控的接收
+  HAL_TIM_Base_Start_IT(&htim6);               //开启中断
+  ATK_IMU_Init();                              //陀螺仪初始化
+  delay_init(&htim6, up_count);                //使能delay
+  usmart_dev.init(216);                        //开启USMART
+  Motor_PID_Init();                            //赋值电机PID
+  Motor_PID1_Init();                           //赋值电机3的PID
+  set_chassis_status(1);                       //底盘使能
+  motor_init();                                //电机变量的赋值
+  //队列初始化
+  printf_init();
+  //关闭循迹版
+  track_status(1, 0);
+  track_status(2, 0);
 }
 
 /* USER CODE END 4 */
@@ -238,7 +237,7 @@ void USER_Init(void)
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
   /* USER CODE BEGIN Callback 0 */
-    MY_PeriodElapsedCallback(htim);
+  MY_PeriodElapsedCallback(htim);
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM7) {
     HAL_IncTick();
@@ -255,11 +254,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 void Error_Handler(void)
 {
   /* USER CODE BEGIN Error_Handler_Debug */
-    /* User can add his own implementation to report the HAL error return state */
-    __disable_irq();
-    while (1)
-    {
-    }
+  /* User can add his own implementation to report the HAL error return state */
+  __disable_irq();
+  while (1)
+  {
+  }
   /* USER CODE END Error_Handler_Debug */
 }
 
@@ -274,8 +273,8 @@ void Error_Handler(void)
 void assert_failed(uint8_t *file, uint32_t line)
 {
   /* USER CODE BEGIN 6 */
-    /* User can add his own implementation to report the file name and line number,
-       ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
+  /* User can add his own implementation to report the file name and line number,
+     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
 #endif /* USE_FULL_ASSERT */

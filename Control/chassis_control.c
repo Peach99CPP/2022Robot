@@ -15,15 +15,16 @@ uint32_t time;
 #define LINE_FACTOR 50
 
 #define MAX_SPEED 300
-#define MIN_SPEED 40
+#define MIN_SPEED 20
 #define LINE_ERROR_ENCODER 150
 
 #define Min_boo1 0xC8
 #define Max_boo1 0x1F4
 #define Min_speed1 150
 
-double encoder_factor = 10;
-int dir, lines, en_dir, en_val, boo_num, boo_dir;
+double encoder_factor = 2;
+double en_dir, en_val;
+int dir, lines, boo_num, boo_dir;
 int count_line_status = 1, encodermove_status = 1, booo_status = 1;
 int edge_status[3] = {0};
 double bias = 0, variation;
@@ -212,7 +213,7 @@ EXIT_TASK:
 void move_by_encoder(int direct, int val)
 {
     static int encoder_delay;
-    val = (double)(val / 10);
+    val = (double)(val / 10.0);
     if (encodermove_status)
     {
     START_ENCODER:
@@ -279,7 +280,7 @@ void EncoderTask(void const *argument)
             pn = 1;
         while (1)
         {
-            if ((TIME_ISR_CNT - time > 10) && ((double)en_val - (encoder_sum * ENOCDER_DIVIDE_FACTOR)) < ENCODE_THRESHOLD)
+            if ((TIME_ISR_CNT - time > 10) && (en_val - (encoder_sum * ENOCDER_DIVIDE_FACTOR)) < ENCODE_THRESHOLD)
                 goto Encoder_Exit;
             bias = fabs((double)en_val - (encoder_sum * ENOCDER_DIVIDE_FACTOR));
             variation = bias * encoder_factor;

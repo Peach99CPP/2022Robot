@@ -191,19 +191,20 @@ void chassis_synthetic_control(void)
     motor_target[4] = -0.707f * y - 0.707f * x - Radius_[4] * w;
     // printf("%f      ,%f       ,%f        ,%f",motor_target[1],motor_target[2],motor_target[3],motor_target[4]);
     //再来一个限幅操作，避免单边速度过高导致控制效果不理想
-    // for (i = 1; i <= 4; ++i) //找出最大值
-    // {
-    //     if (motor_target[i] > max_val)
-    //         max_val = motor_target[i];
-    // }
-    // if (max_val > MAX_SPEED) //最大值是否超限制，进行操作，确保最大值仍在范围内且转速比例 不变
-    // {
-    //     factor = MAX_SPEED / max_val;
-    //     for (i = 1; i < 4; ++i)
-    //     {
-    //         motor_target[i] *= factor;
-    //     }
-    // }
+    max_val = 0;             //重置比较变量
+    for (i = 1; i <= 4; ++i) //找出最大值
+    {
+        if (motor_target[i] > max_val)
+            max_val = motor_target[i];
+    }
+    if (max_val > MAX_SPEED) //最大值是否超限制，进行操作，确保最大值仍在范围内且转速比例 不变
+    {
+        factor = MAX_SPEED / max_val;
+        for (i = 1; i <= 4; ++i)
+        {
+            motor_target[i] *= factor;
+        }
+    }
     for (i = 1; i <= 4; ++i)
     {
         // TODO 这里我进行了修改 将两个参数重置为一个
@@ -252,6 +253,7 @@ int Get_W_speed(void)
 {
     return chassis.w_speed;
 }
+
 void Set_Dir_Speed(char dir, int speed)
 {
     switch (dir)

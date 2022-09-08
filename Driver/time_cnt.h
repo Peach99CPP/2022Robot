@@ -1,3 +1,4 @@
+
 #ifndef _TIME_CNT_H
 #define _TIME_CNT_H
 
@@ -21,15 +22,15 @@ typedef struct
     uint16_t microsecond;
 } Time_t;
 
-struct BUZZER{
-	uint8_t flag;
-	uint16_t time;
+struct BUZZER
+{
+    uint8_t flag;
+    uint16_t time;
 };
 extern struct BUZZER buzzer;
 extern Time_t Time_Sys;
 extern volatile uint32_t TIME_ISR_CNT;
-void T6_IRQHandler(void);
+void T6_IRQHandler(TIM_HandleTypeDef *htim);
 void Get_Time_Init(void);
 void Get_Time_Period(Testime *Time_Lab);
 #endif
-

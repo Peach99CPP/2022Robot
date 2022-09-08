@@ -10,11 +10,11 @@ Time_t Time_Sys;
 long tim6_tick;
 struct BUZZER buzzer;
 /**********************************************************************************************************
-*函 数 名: Get_Time_Init
-*功能说明: 时间周期计数模块初始化
-*形    参: 无
-*返 回 值: 无
-**********************************************************************************************************/
+ *函 数 名: Get_Time_Init
+ *功能说明: 时间周期计数模块初始化
+ *形    参: 无
+ *返 回 值: 无
+ **********************************************************************************************************/
 void Get_Time_Init(void)
 {
     //使能定时器时钟
@@ -37,43 +37,46 @@ void Get_Time_Init(void)
 }
 
 /**********************************************************************************************************
-*函 数 名: T6_IRQHandler
-*功能说明: 定时器6中断函数
-*形    参: 无
-*返 回 值: 无
-**********************************************************************************************************/
-void T6_IRQHandler(void)
+ *函 数 名: T6_IRQHandler
+ *功能说明: 定时器6中断函数
+ *形    参: 无
+ *返 回 值: 无
+ **********************************************************************************************************/
+void T6_IRQHandler(TIM_HandleTypeDef *htim)
 {
     static uint16_t Microsecond_Cnt = 0;
-	
-    if (__HAL_TIM_GET_FLAG(&htim6, TIM_FLAG_UPDATE) != RESET)
+
+    if (__HAL_TIM_GET_FLAG(htim, TIM_FLAG_UPDATE) != RESET)
     {
-		 if(buzzer.flag==1){
-			 HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12,GPIO_PIN_RESET);
-			 buzzer.flag+=1;
-		 }
-		 if(buzzer.flag==2){
-			 buzzer.time++;
-			 if(buzzer.time>100){
-				 buzzer.flag = 0;
-				 buzzer.time = 0;
-				 HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12,GPIO_PIN_SET);
-			 }
-		 }
+        if (buzzer.flag == 1)
+        {
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
+            buzzer.flag += 1;
+        }
+        if (buzzer.flag == 2)
+        {
+            buzzer.time++;
+            if (buzzer.time > 100)
+            {
+                buzzer.flag = 0;
+                buzzer.time = 0;
+                HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);
+            }
+        }
         //每10ms自加
         TIME_ISR_CNT++;
         Microsecond_Cnt += 10;
-        //1秒
+        // 1秒
         if (Microsecond_Cnt >= 1000)
         {
             Microsecond_Cnt = 0;
             Time_Sys.second++;
-            //1分钟
+            // 1分钟
             if (Time_Sys.second >= 60)
             {
                 Time_Sys.second = 0;
                 Time_Sys.minute++;
-                //1小时
+                // 1小时
                 if (Time_Sys.minute >= 60)
                 {
                     Time_Sys.minute = 0;
@@ -82,16 +85,14 @@ void T6_IRQHandler(void)
             }
         }
         Time_Sys.microsecond = Microsecond_Cnt;
-        __HAL_TIM_CLEAR_IT(&htim6, TIM_FLAG_UPDATE);
     }
-
 }
 /**********************************************************************************************************
-*函 数 名: Get_Period
-*功能说明: 获取时间周期
-*形    参: 时间周期结构体
-*返 回 值: 无
-**********************************************************************************************************/
+ *函 数 名: Get_Period
+ *功能说明: 获取时间周期
+ *形    参: 时间周期结构体
+ *返 回 值: 无
+ **********************************************************************************************************/
 void Get_Time_Period(Testime *Time_Lab)
 {
     //如果还未初始化
