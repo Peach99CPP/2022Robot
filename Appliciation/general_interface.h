@@ -13,6 +13,6 @@
 #include "FreeRTOS.h"
 #include "task.h"
 
-void CountBar_Test(void);
+void CountBar_Test(int num,int speed);
 
 #endif

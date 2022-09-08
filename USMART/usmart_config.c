@@ -133,7 +133,7 @@ struct _m_usmart_nametab usmart_nametab[] =
         (void *)begin_all,
         "void begin_all(int status)",
         (void *)CountBar_Test,
-        "void CountBar_Test(void)",
+        "void CountBar_Test(int num,int speed)",
 };
 ///////////////////////////////////END///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////
