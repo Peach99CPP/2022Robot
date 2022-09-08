@@ -27,8 +27,8 @@ pid_paramer_t motor_param1;
 //�����޷��ſ��������ó������ж���
 float param_[5] = {4000,
                    9900,
-                   310,
-                   0.04,
+                   120,
+                   0.5,
                    0};    //这里调的�?左边�?子的PID
 float param1_[5] = {4000, //���?3��PIDֵ����
                     9900,
@@ -512,7 +512,7 @@ void set_motor_pid(int kp, int ki, int kd)
     clear_motor_data();
     motor_param.kp = kp;
     motor_param.ki = (ki / 1000.0);
-    motor_param.kd = kd;
+    motor_param.kd = (kd/1000.0);
 }
 
 void set_motor_pid1(int kp, int ki, int kd)
@@ -520,7 +520,7 @@ void set_motor_pid1(int kp, int ki, int kd)
     clear_motor_data();
     motor_param1.kp = kp;
     motor_param1.ki = (ki / 1000.0);
-    motor_param1.kd = kd;
+    motor_param1.kd = (kd/1000.0);
 }
 
 /**********************************************************************

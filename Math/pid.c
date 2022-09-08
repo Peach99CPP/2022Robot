@@ -2,7 +2,7 @@
  * @Author: peach 1831427532@qq.com
  * @Date: 2022-09-05 09:07:09
  * @LastEditors: peach 1831427532@qq.com
- * @LastEditTime: 2022-09-08 13:58:08
+ * @LastEditTime: 2022-09-08 17:18:39
  * @Description: ÇëÌîĞ´¼ò½é
  */
 #include "pid.h"
@@ -76,8 +76,8 @@ float delta_pid(pid_data_t *data, pid_paramer_t *para)
         if (data->integrate <= -para->integrate_max)
             data->integrate = -para->integrate_max;
     }
-    increasement = para->kp * (data->err - data->last_err) + data->integrate + para->kd * (data->err - 2 * data->last_err + data->last2err);
-    data->control_output += increasement;
+    increasement = para->kp * (data->err - data->last_err) + para->kd * (data->err - 2 * data->last_err + data->last2err);
+    data->control_output = increasement + data->control_output;
     if (para->control_output_limit)
     {
         if (data->control_output >= para->control_output_limit)
@@ -85,7 +85,7 @@ float delta_pid(pid_data_t *data, pid_paramer_t *para)
         if (data->control_output <= -para->control_output_limit)
             data->control_output = -para->control_output_limit;
     }
-    return data->control_output;
+    return data->control_output + data->integrate;
 }
 float pos_pid_cal(pid_data_t *data, pid_paramer_t *para)
 {

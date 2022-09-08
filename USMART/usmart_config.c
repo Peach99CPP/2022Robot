@@ -18,20 +18,20 @@
 #include "general_interface.h"
 /****��������ģʽ�Ŀ���*****/
 
-#define DEBUG_MOTOR 0   //���Ե��
+#define DEBUG_MOTOR 0   //���Ե��?
 #define DEBUG_TRACKER 1 //����ѭ����
 #define DEBUG_IMU 1     //����������
 #define DEBUG_CHASSIS 0 //�����˶�
 #define DEBUG_SWITCH 0  //�ᴥ���ء����⿪��
 #define DEBUG_OPENMV 0  // openmvͨѶ
-#define Debug_Servo 0   //���ͨѶ
+#define Debug_Servo 0   //���ͨ�?
 extern void Global_Debug(void);
 /******����ʾ�����ø�������****/
 //�������б���ʼ��(�û��Լ�����)
-//�û�ֱ������������Ҫִ�еĺ�����������Ҵ�
+//�û�ֱ������������Ҫִ�еĺ�����������Ҵ�?
 struct _m_usmart_nametab usmart_nametab[] =
     {
-#if USMART_USE_WRFUNS == 1 //���ʹ���˶�д����
+#if USMART_USE_WRFUNS == 1 //���ʹ���˶�д����?
         (void *)read_addr,
         "u32 read_addr(u32 addr)",
         (void *)write_addr,
@@ -48,6 +48,8 @@ struct _m_usmart_nametab usmart_nametab[] =
         "void set_motor_maxparam(int integrate_max, int control_output_limit)",
         (void *)set_motor_pid1,
         "void set_motor_pid1(int kp, int ki, int kd)",
+        (void *)set_motor,
+        "void set_motor(int motor_id, int control_val)",
 #endif
 #if DEBUG_TRACKER == 1
         (void *)set_track_pid,
@@ -73,8 +75,7 @@ struct _m_usmart_nametab usmart_nametab[] =
         (void *)move_slantly,
         "void move_slantly(int dir, int speed, uint16_t delay)",
 /***Ŀǰ�ò���
-(void *)set_motor,
-"void set_motor(int motor_id, int control_val)",
+
 ***/
 #endif
 #if DEBUG_SWITCH == 1
@@ -92,9 +93,9 @@ struct _m_usmart_nametab usmart_nametab[] =
         "void Lateral_infrared(int status)",
         (void *)Baffle_Control, //���Ƶ���
         "void Baffle_Control(int up_dowm)",
-        (void *)Single_Control, //���Ƶ������
+        (void *)Single_Control, //���Ƶ������?
         "void Single_Control(int id, int control_mode, int angle, int  time, int delay)",
-        (void *)Action_Gruop, //���ƶ������ִ��
+        (void *)Action_Gruop, //���ƶ������ִ��?
         "void Action_Gruop(int id, int  times)",
 #endif
         //�˶�����
@@ -131,7 +132,7 @@ struct _m_usmart_nametab usmart_nametab[] =
         "void go_warehouse(void)",
         (void *)begin_all,
         "void begin_all(int status)",
-        (void*)CountBar_Test,
+        (void *)CountBar_Test,
         "void CountBar_Test(void)",
 };
 ///////////////////////////////////END///////////////////////////////////////////////
@@ -151,6 +152,6 @@ struct _m_usmart_dev usmart_dev =
         0,                                                         //����ID
         1,                                                         //������ʾ����,0,10����;1,16����
         0,                                                         //��������.bitx:,0,����;1,�ַ���
-        0,                                                         //ÿ�������ĳ����ݴ��,��ҪMAX_PARM��0��ʼ��
+        0,                                                         //ÿ�������ĳ����ݴ��?,��ҪMAX_PARM��0��ʼ��
         0,                                                         //�����Ĳ���,��ҪPARM_LEN��0��ʼ��
 };

@@ -134,6 +134,25 @@ void chassis_synthetic_control(void)
         y_error = track_pid_cal(&y_bar);
         x_error = (track_pid_cal(&x_leftbar) - track_pid_cal(&x_rightbar)) / 2.0f;
     }
+    w_error = imu_correct_val();
+    if (w_error < 0)
+    {
+        fn = -1;
+    }
+    if (w_error > 0)
+    {
+        fn = 1;
+    }
+    int MaxVal = 300 + 0.5 * (fabs(chassis.x_speed) + fabs(chassis.y_speed));
+    if (fabs(w_error) > MaxVal)
+    {
+        w_error = fn * MaxVal;
+    }
+
+    y_error = x_error = 0;
+    x = chassis.x_speed + y_error;
+    y = chassis.y_speed - x_error;
+    w = chassis.w_speed + w_error;
 
     max_val = 0; //对最大值数据进行初始化
     factor = 1;  //倍率因子初始化
@@ -157,23 +176,6 @@ void chassis_synthetic_control(void)
     //
     //    }
     //陀螺仪开启时的巡线模式，已测试通过
-    w_error = imu_correct_val();
-    if (w_error < 0)
-    {
-        fn = -1;
-    }
-    if (w_error > 0)
-    {
-        fn = 1;
-    }
-    int MaxVal = 300 + 0.5 * (fabs(chassis.x_speed) + fabs(chassis.y_speed));
-    if (fabs(w_error) > MaxVal)
-    {
-        w_error = fn * MaxVal;
-    }
-    x = chassis.x_speed + y_error * speed_factor;
-    y = chassis.y_speed - x_error * speed_factor;
-    w = chassis.w_speed + w_error * speed_factor;
 
     /***************************************
                 1*************2
@@ -189,21 +191,19 @@ void chassis_synthetic_control(void)
     motor_target[4] = -0.707f * y - 0.707f * x - Radius_[4] * w;
     // printf("%f      ,%f       ,%f        ,%f",motor_target[1],motor_target[2],motor_target[3],motor_target[4]);
     //再来一个限幅操作，避免单边速度过高导致控制效果不理想
-    for (i = 1; i <= 4; ++i) //找出最大值
-    {
-        if (motor_target[i] > max_val)
-            max_val = motor_target[i];
-    }
-    factor = (max_val > MAX_SPEED) ? MAX_SPEED / max_val : 1;
-    if (max_val > MAX_SPEED) //最大值是否超限制，进行操作，确保最大值仍在范围内且转速比例 不变
-    {
-        factor = MAX_SPEED / max_val;
-        for (i = 1; i < 4; ++i)
-        {
-            motor_target[i] *= factor;
-        }
-    }
-
+    // for (i = 1; i <= 4; ++i) //找出最大值
+    // {
+    //     if (motor_target[i] > max_val)
+    //         max_val = motor_target[i];
+    // }
+    // if (max_val > MAX_SPEED) //最大值是否超限制，进行操作，确保最大值仍在范围内且转速比例 不变
+    // {
+    //     factor = MAX_SPEED / max_val;
+    //     for (i = 1; i < 4; ++i)
+    //     {
+    //         motor_target[i] *= factor;
+    //     }
+    // }
     for (i = 1; i <= 4; ++i)
     {
         // TODO 这里我进行了修改 将两个参数重置为一个
@@ -217,7 +217,6 @@ void chassis_synthetic_control(void)
         motor_data[i].expect = motor_target[i];
         motor_data[i].feedback = read_encoder(i);
         control_val[i] = delta_pid(&motor_data[i], &motor_param);
-
         if (control_val[i] > MAX_CONTROL_VAL)
             control_val[i] = MAX_CONTROL_VAL;
         if (control_val[i] < -MAX_CONTROL_VAL)
@@ -227,9 +226,12 @@ void chassis_synthetic_control(void)
 
     // printf("%f      ,%f       ,%f        ,%f        ,%f\r\n", fabs(read_encoder(1)), fabs(read_encoder(2)), fabs(read_encoder(3)), fabs(read_encoder(4)), motor_target[1]);
     // printf("%.2f\r\n", control_val[1]); // TODO 调试输出
-    if (debug_motor_id != 0)            //循迹状态下
+    if (debug_motor_id != 0) //循迹状态下
     {
-        printf("%.2lf , %.2f \r\n", motor_data[debug_motor_id].feedback, motor_data[debug_motor_id].expect);
+        printf("%.2lf , %.2f,%.0f \r\n",
+               motor_data[debug_motor_id].feedback,
+               motor_data[debug_motor_id].expect,
+               control_val[debug_motor_id]);
         // printf("%.2f  %.2f ", motor_data[debug_motor_id].feedback, motor_data[debug_motor_id].expect);
         // printf("\r\n");
     }
