@@ -23,11 +23,11 @@
 pid_data_t imu_data, anglekeep_data;
 pid_paramer_t imu_para =
     {
-        .kp = 6.5,
+        .kp = 6.0,
         .ki = 0.1,
         .kd = 0,
         .integrate_max = 70,
-        .control_output_limit = 300};
+        .control_output_limit = 500};
 
 extern ATK_IMU_t imu;
 float delta;
@@ -72,7 +72,7 @@ float imu_correct_val(void)
     //获取PID值
     delta = pos_pid_cal(&imu_data, &imu_para); // pid传参
                                                // printf("%.2f,%.2f,%.2f,%.2f\r\n",now_angle  ,imu.target_angle   ,imu_data.err,i);
-    if (fabs(imu_data.err) < 1.5)
+    if (fabs(imu_data.err) < 0.5)
     {
       delta = 0;
     }

@@ -1,4 +1,8 @@
 *** Using Compiler 'V5.06 update 7 (build 960)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'motor'
+compiling chassis.c...
+linking...
+Program Size: Code=58548 RO-data=2272 RW-data=1732 ZI-data=21268  
+FromELF: creating hex file...
 "motor\motor.axf" - 0 Error(s), 0 Warning(s).
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:15

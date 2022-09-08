@@ -3,7 +3,7 @@
 <title>Static Call Graph - [motor\motor.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image motor\motor.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Thu Sep 08 00:22:54 2022
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Thu Sep 08 14:04:22 2022
 <BR><P>
 <H3>Maximum Stack Usage =        380 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1279,7 +1279,6 @@ Global Symbols
 
 <P><STRONG><a name="[1a7]"></a>Get_Time_Period</STRONG> (Thumb, 64 bytes, Stack size 0 bytes, time_cnt.o(i.Get_Time_Period))
 <BR><BR>[Called By]<UL><LI><a href="#[fe]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;avoid_callback
-<LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_control
 </UL>
 
 <P><STRONG><a name="[fa]"></a>Get_Trcker_Num</STRONG> (Thumb, 6 bytes, Stack size 0 bytes, track_bar_receive.o(i.Get_Trcker_Num))
@@ -1729,8 +1728,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[153]"></a>HAL_UART_ErrorCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f7xx_hal_uart.o(i.HAL_UART_ErrorCallback))
-<BR><BR>[Called By]<UL><LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_DMAAbortOnError
-<LI><a href="#[150]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
+<BR><BR>[Called By]<UL><LI><a href="#[150]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
+<LI><a href="#[8f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_DMAAbortOnError
 </UL>
 
 <P><STRONG><a name="[150]"></a>HAL_UART_IRQHandler</STRONG> (Thumb, 666 bytes, Stack size 32 bytes, stm32f7xx_hal_uart.o(i.HAL_UART_IRQHandler))
@@ -1738,10 +1737,10 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[153]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_ErrorCallback
 <LI><a href="#[154]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UARTEx_RxEventCallback
-<LI><a href="#[155]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_EndTransmit_IT
-<LI><a href="#[151]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_EndRxTransfer
 <LI><a href="#[152]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Abort_IT
 <LI><a href="#[10b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_DMA_Abort
+<LI><a href="#[155]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_EndTransmit_IT
+<LI><a href="#[151]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_EndRxTransfer
 </UL>
 <BR>[Called By]<UL><LI><a href="#[70]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART6_IRQHandler
 <LI><a href="#[50]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USART3_IRQHandler
@@ -2571,15 +2570,15 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> usmart_config.o(.data)
 </UL>
-<P><STRONG><a name="[1a9]"></a>chassis_synthetic_control</STRONG> (Thumb, 1840 bytes, Stack size 64 bytes, chassis.o(i.chassis_synthetic_control))
+<P><STRONG><a name="[1a9]"></a>chassis_synthetic_control</STRONG> (Thumb, 1654 bytes, Stack size 64 bytes, chassis.o(i.chassis_synthetic_control))
 <BR><BR>[Stack]<UL><LI>Max Depth = 208 + Unknown Stack Size
 <LI>Call Chain = chassis_synthetic_control &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1aa]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;track_pid_cal
 <LI><a href="#[1b1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_motor
 <LI><a href="#[1af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_encoder
-<LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_control
 <LI><a href="#[1ac]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_correct_val
+<LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delta_pid
 <LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__hardfp_fabs
 <LI><a href="#[18c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_f2d
 <LI><a href="#[1ab]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_cdrcmple
@@ -2605,7 +2604,7 @@ Global Symbols
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> freertos.o(.constdata)
 </UL>
-<P><STRONG><a name="[100]"></a>clear_motor_data</STRONG> (Thumb, 886 bytes, Stack size 8 bytes, motor.o(i.clear_motor_data))
+<P><STRONG><a name="[100]"></a>clear_motor_data</STRONG> (Thumb, 882 bytes, Stack size 8 bytes, motor.o(i.clear_motor_data))
 <BR><BR>[Stack]<UL><LI>Max Depth = 28<LI>Call Chain = clear_motor_data &rArr; set_motor
 </UL>
 <BR>[Calls]<UL><LI><a href="#[1b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_clear
@@ -2635,6 +2634,10 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[1b3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_Base_Start
 </UL>
 <BR>[Called By]<UL><LI><a href="#[198]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;USER_Init
+</UL>
+
+<P><STRONG><a name="[1b0]"></a>delta_pid</STRONG> (Thumb, 286 bytes, Stack size 0 bytes, pid.o(i.delta_pid))
+<BR><BR>[Called By]<UL><LI><a href="#[1a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_synthetic_control
 </UL>
 
 <P><STRONG><a name="[f]"></a>direct_move</STRONG> (Thumb, 142 bytes, Stack size 48 bytes, chassis_control.o(i.direct_move))
@@ -2863,17 +2866,6 @@ Global Symbols
 
 <P><STRONG><a name="[1b2]"></a>pid_clear</STRONG> (Thumb, 34 bytes, Stack size 0 bytes, pid.o(i.pid_clear))
 <BR><BR>[Called By]<UL><LI><a href="#[100]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;clear_motor_data
-</UL>
-
-<P><STRONG><a name="[1b0]"></a>pid_control</STRONG> (Thumb, 358 bytes, Stack size 40 bytes, pid.o(i.pid_control))
-<BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = pid_control &rArr; __aeabi_ddiv
-</UL>
-<BR>[Calls]<UL><LI><a href="#[1a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Time_Period
-<LI><a href="#[1b5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ui2d
-<LI><a href="#[103]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_ddiv
-<LI><a href="#[1ad]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_d2f
-</UL>
-<BR>[Called By]<UL><LI><a href="#[1a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_synthetic_control
 </UL>
 
 <P><STRONG><a name="[1ba]"></a>pos_pid_cal</STRONG> (Thumb, 238 bytes, Stack size 0 bytes, pid.o(i.pos_pid_cal))
@@ -3334,9 +3326,9 @@ Global Symbols
 <P><STRONG><a name="[1f3]"></a>xPortStartScheduler</STRONG> (Thumb, 252 bytes, Stack size 16 bytes, port.o(i.xPortStartScheduler))
 <BR><BR>[Stack]<UL><LI>Max Depth = 16<LI>Call Chain = xPortStartScheduler
 </UL>
-<BR>[Calls]<UL><LI><a href="#[1f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortSetupTimerInterrupt
-<LI><a href="#[1f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__asm___6_port_c_39a90d8d__prvEnableVFP
+<BR>[Calls]<UL><LI><a href="#[1f5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__asm___6_port_c_39a90d8d__prvEnableVFP
 <LI><a href="#[1f6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__asm___6_port_c_39a90d8d__prvStartFirstTask
+<LI><a href="#[1f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vPortSetupTimerInterrupt
 </UL>
 <BR>[Called By]<UL><LI><a href="#[1bd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskStartScheduler
 </UL>
@@ -3511,7 +3503,6 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_motor_pid1
 <LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_motor_pid
-<LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_control
 <LI><a href="#[1a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_synthetic_control
 <LI><a href="#[c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_imu_param
 <LI><a href="#[a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_track_pid
@@ -3545,7 +3536,6 @@ Global Symbols
 </UL>
 <BR>[Called By]<UL><LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_motor_pid1
 <LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_motor_pid
-<LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_control
 <LI><a href="#[1a9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_synthetic_control
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EncoderTask
 <LI><a href="#[12a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IC_CaptureCallback
@@ -3608,8 +3598,7 @@ Global Symbols
 <P><STRONG><a name="[24b]"></a>_dflt</STRONG> (Thumb, 46 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dflt), UNUSED)
 
 <P><STRONG><a name="[1b5]"></a>__aeabi_ui2d</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dfltu))
-<BR><BR>[Called By]<UL><LI><a href="#[1b0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;pid_control
-<LI><a href="#[1a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;distance_convert
+<BR><BR>[Called By]<UL><LI><a href="#[1a8]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;distance_convert
 </UL>
 
 <P><STRONG><a name="[24c]"></a>_dfltu</STRONG> (Thumb, 38 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dfltu), UNUSED)

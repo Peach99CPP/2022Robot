@@ -211,11 +211,11 @@ void HAL_TIM_IC_CaptureCallback(TIM_HandleTypeDef *htim)
             update_count[3] = 0;
             if(HAL_GPIO_ReadPin(motor3.Encoder_IO.Port, motor3.Encoder_IO.Pin) == GPIO_PIN_RESET)
             {
-                direct_[3] = FORWARD;
+                direct_[3] = BACKWARD;  //TODO 在这里修改了3号电机的转速方向的判断逻辑
             }
             else
             {
-                direct_[3] = BACKWARD;
+                direct_[3] = FORWARD;
             }
             __HAL_TIM_SET_CAPTUREPOLARITY(motor3.IC.Tim, motor3.IC.Channel, TIM_ICPOLARITY_FALLING);
         }

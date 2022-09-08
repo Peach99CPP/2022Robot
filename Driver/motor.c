@@ -29,12 +29,12 @@ float param_[5] = {4000,
                    9900,
                    310,
                    0.04,
-                   0};    //这里调的是左边轮子的PID
-float param1_[5] = {4000, //���3��PIDֵ����
+                   0};    //这里调的�?左边�?子的PID
+float param1_[5] = {4000, //���?3��PIDֵ����
                     9900,
                     127,
                     4,
-                    0}; //这里调的是右边轮子的PID
+                    0}; //这里调的�?右边�?子的PID
 motor_t motor1, motor2, motor3, motor4;
 
 /**********************************************************************
@@ -48,12 +48,12 @@ motor_t motor1, motor2, motor3, motor4;
 void motor_init(void)
 {
 
-    /*****************���1*****************/
+    /*****************���?1*****************/
     motor1.Encoder_IO.Port = MOTOR1_ENCODER_GPIO_Port; //���ñ�����GPIO_PORT
     motor1.Encoder_IO.Pin = MOTOR1_ENCODER_Pin;        //����PIN
 
     motor1.IC.Tim = &htim5;                              //ȷ���ñ������Ķ�ʱ��
-    motor1.IC.Active_Channel = HAL_TIM_ACTIVE_CHANNEL_1; //������ͨ����ͬ����˼��ֻ����Ϊ�˱��ʱ���������������ò�ͬ����
+    motor1.IC.Active_Channel = HAL_TIM_ACTIVE_CHANNEL_1; //������ͨ����ͬ����˼��ֻ����Ϊ�˱��ʱ���������������ò��?����
     motor1.IC.Channel = TIM_CHANNEL_1;                   //
 
     motor1.PWM.Tim = &htim1;              // PWM������TIM
@@ -67,12 +67,12 @@ void motor_init(void)
     __HAL_TIM_ENABLE_IT(motor1.IC.Tim, TIM_IT_UPDATE);
     set_motor(1, 0);
 
-    /*****************���2*****************/
+    /*****************���?2*****************/
     motor2.Encoder_IO.Port = MOTOR2_ENCODER_GPIO_Port; //���ñ�����GPIO_PORT
     motor2.Encoder_IO.Pin = MOTOR2_ENCODER_Pin;        //����PIN
 
     motor2.IC.Tim = &htim5;                              //ȷ���ñ������Ķ�ʱ��
-    motor2.IC.Active_Channel = HAL_TIM_ACTIVE_CHANNEL_3; //������ͨ����ͬ����˼��ֻ����Ϊ�˱��ʱ���������������ò�ͬ����
+    motor2.IC.Active_Channel = HAL_TIM_ACTIVE_CHANNEL_3; //������ͨ����ͬ����˼��ֻ����Ϊ�˱��ʱ���������������ò��?����
     motor2.IC.Channel = TIM_CHANNEL_3;                   //
 
     motor2.PWM.Tim = &htim1;              // PWM������TIM
@@ -86,17 +86,17 @@ void motor_init(void)
     __HAL_TIM_ENABLE_IT(motor2.IC.Tim, TIM_IT_UPDATE);
     set_motor(2, 0);
 
-    /*****************���3*****************/
+    /*****************���?3*****************/
     motor3.Encoder_IO.Port = MOTOR3_ENCODER_GPIO_Port; //���ñ�����GPIO_PORT
     motor3.Encoder_IO.Pin = MOTOR3_ENCODER_Pin;        //����PIN
 
     motor3.IC.Tim = &htim3;                              //ȷ���ñ������Ķ�ʱ��
-    motor3.IC.Active_Channel = HAL_TIM_ACTIVE_CHANNEL_1; //������ͨ����ͬ����˼��ֻ����Ϊ�˱��ʱ���������������ò�ͬ����
+    motor3.IC.Active_Channel = HAL_TIM_ACTIVE_CHANNEL_1; //������ͨ����ͬ����˼��ֻ����Ϊ�˱��ʱ���������������ò��?����
     motor3.IC.Channel = TIM_CHANNEL_1;                   //
 
     motor3.PWM.Tim = &htim2;              // PWM������TIM
-    motor3.PWM.Channel_A = TIM_CHANNEL_3; //����PWMͨ��
-    motor3.PWM.Channel_B = TIM_CHANNEL_4; //
+    motor3.PWM.Channel_A = TIM_CHANNEL_4; //TODO togggle channle id 
+    motor3.PWM.Channel_B = TIM_CHANNEL_3; //
 
     HAL_TIM_PWM_Start(motor3.PWM.Tim, motor3.PWM.Channel_A); // PWMʹ��
     HAL_TIM_PWM_Start(motor3.PWM.Tim, motor3.PWM.Channel_B); //
@@ -105,12 +105,12 @@ void motor_init(void)
     __HAL_TIM_ENABLE_IT(motor3.IC.Tim, TIM_IT_UPDATE);
     set_motor(3, 0);
 
-    /*****************���4*****************/
+    /*****************���?4*****************/
     motor4.Encoder_IO.Port = MOTOR4_ENCODER_GPIO_Port; //���ñ�����GPIO_PORT
     motor4.Encoder_IO.Pin = MOTOR4_ENCODER_Pin;        //����PIN
 
     motor4.IC.Tim = &htim3;                              //ȷ���ñ������Ķ�ʱ��
-    motor4.IC.Active_Channel = HAL_TIM_ACTIVE_CHANNEL_3; //������ͨ����ͬ����˼��ֻ����Ϊ�˱��ʱ���������������ò�ͬ����
+    motor4.IC.Active_Channel = HAL_TIM_ACTIVE_CHANNEL_3; //������ͨ����ͬ����˼��ֻ����Ϊ�˱��ʱ���������������ò��?����
     motor4.IC.Channel = TIM_CHANNEL_3;                   //
 
     motor4.PWM.Tim = &htim2;                                 // PWM������TIM
@@ -165,15 +165,15 @@ float read_encoder(int motor_id)
 #ifdef DEBUG_MODE
     printf("\r\nmotor%d sppeed =%d\r\n", motor_id, (int)temp_num);
 #endif
-    //�ڵ����з�������������� �ڶϵ��ת�����ݲ���õ�����
+    //�ڵ����з��������������? �ڶϵ���?�����ݲ���õ�����?
     return (int)temp_num;
 }
 
 /************************************************************
  *@name:set_motor
  *@function�����Ƶ���Ķ�ʱ���ڣ��������ת��
- *@motor_id:���Ƶ�Ŀ�������
- *@control_val������Ŀ���ֵֵ
+ *@motor_id:���Ƶ�Ŀ�������?
+ *@control_val������Ŀ���ֵ�?
  *@return: ��
  **************************************************************/
 void set_motor(int motor_id, int control_val)
@@ -426,7 +426,7 @@ void show_speed(void)
 
 void clear_motor_data(void)
 {
-    //���PID����ֵ,�ָ��������ֵ
+    //���PID����ֵ,�ָ���������?
     for (uint8_t i = 1; i <= 4; ++i)
     {
         pid_clear(&motor_data[i]);
@@ -443,8 +443,8 @@ void clear_motor_data(void)
     encoder_sum = 0;
 }
 /******
- * ���е������ʱ���õĺ�������
- * ���е������ʱ,USMART��ĺ궨��ǵ�����Ϊ1
+ * ���е������ʱ���õĺ�������?
+ * ���е�������?,USMART��ĺ�?��ǵ������?1
  * ���裺 ���ú�
  *
  */
@@ -511,7 +511,7 @@ void set_motor_pid(int kp, int ki, int kd)
 {
     clear_motor_data();
     motor_param.kp = kp;
-    motor_param.ki = (ki/1000.0);
+    motor_param.ki = (ki / 1000.0);
     motor_param.kd = kd;
 }
 
@@ -519,7 +519,7 @@ void set_motor_pid1(int kp, int ki, int kd)
 {
     clear_motor_data();
     motor_param1.kp = kp;
-    motor_param1.ki = (ki/1000.0);
+    motor_param1.ki = (ki / 1000.0);
     motor_param1.kd = kd;
 }
 
@@ -562,42 +562,42 @@ void go_two_bar(void) //�ߵ�Բ�̻�Ȼ��ײԲ�̻�
     printf("超声波数木板成功\n");
     printf("%ld\n", time_now);
     move_by_encoder(2, -95);
-    time_now = Wait_OKInf(Encoder_Type, Wait_Dealy_MAX2); //������һ���
-    printf("编码器让车子后退成功\n");
+    time_now = Wait_OKInf(Encoder_Type, Wait_Dealy_MAX2); //������һ���?
+    printf("编码器�?�车子后退成功\n");
     printf("%ld\n", time_now);
     move_by_encoder(1, 120);
     time_now = Wait_OKInf(Encoder_Type, Wait_Dealy_MAX2); //������ײ�ᴥ����
-    printf("编码器让车子往右走撞木板成功\n");
+    printf("编码器�?�车子往右走撞木板成功\n");
     printf("%ld\n", time_now);
     Wait_Switches(3); //ײ����
     printf("轻触开关使姿态矫正完成\n");
-    set_speed(-200, 0, 0); //这里改成编码器的话陀螺仪会在下一步转错
+    set_speed(-200, 0, 0); //这里改成编码器的话陀螺仪会在下一步转�?
     osDelay(2000);
     //	move_by_encoder(1,180);
     //	Wait_OKInf(Encoder_Type, Wait_Dealy_MAX2);//������
     printf("车身往左走\n");
     Turn_angle(1, 180, 0); //ת180��
-    printf("转180度成功\n");
+    printf("�?180度成功\n");
     osDelay(500);
 }
 
-void go_warehouse(void) //这里是走到仓库,用红外来定位到仓库中心，这里需要将底下的红外拖出来，因为还没有用舵控
+void go_warehouse(void) //这里�?走到仓库,用红外来定位到仓库中心，这里需要将底下的红外拖出来，因为还没有用舵�?
 {
-    //这个地方可加舵控，把红外拉出来
-    while (1) //���ú����ߵ��ֿ�����м�
+    //这个地方�?加舵控，把红外拉出来
+    while (1) //���ú����ߵ��ֿ�����м�?
     {
         int count_bar;
         bool flag_bar;
         set_speed(0, 100, 0);
-        if (HW.data[1] == 1) //先红外扫到木板
+        if (HW.data[1] == 1) //先红外扫到木�?
         {
             flag_bar = 1;
         }
         if (flag_bar)
         {
-            if (HW.data[1] == 0) //扫到木板后出来
+            if (HW.data[1] == 0) //�?到木板后出来
             {
-                count_bar++; //作为木板计数值
+                count_bar++; //作为木板计数�?
             }
         }
         osDelay(5);
@@ -607,7 +607,7 @@ void go_warehouse(void) //这里是走到仓库,用红外来定位到仓库中�
 osThreadId Go_Handle = NULL;
 void GoTask(void const *argument);
 
-void begin_all(int status) //这里创建任务本来是想要用来跑全程的，现在直接用debug_task.c
+void begin_all(int status) //这里创建任务�?来是想�?�用来跑全程的，现在直接用debug_task.c
 {
 
     static int delay_time;

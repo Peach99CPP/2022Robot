@@ -1,3 +1,10 @@
+/***
+ * @Author: peach 1831427532@qq.com
+ * @Date: 2022-09-05 09:07:09
+ * @LastEditors: peach 1831427532@qq.com
+ * @LastEditTime: 2022-09-08 13:40:51
+ * @Description: 请填写简介float
+ */
 #ifndef _PID_H
 #define _PID_H
 
@@ -29,6 +36,8 @@ typedef struct pid_data
     //偏差
     float err;
     //上次偏差
+    float last2err;
+    //上上次   增量式专用
     float last_err;
     //积分值
     float integrate;
@@ -50,7 +59,8 @@ typedef struct pid_data
 
 typedef void (*pid_callback_t)(struct pid_data *, struct pid_paramer *);
 
-extern     float  Iout, Pout, Dout;
+extern float Iout, Pout, Dout;
+float delta_pid(pid_data_t *data, pid_paramer_t *para);
 float pid_control(pid_data_t *data, pid_paramer_t *para);
 float pos_pid_cal(pid_data_t *data, pid_paramer_t *para);
 void pid_clear(pid_data_t *data);

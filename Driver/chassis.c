@@ -166,7 +166,7 @@ void chassis_synthetic_control(void)
     {
         fn = 1;
     }
-    int MaxVal = 300 + 0.35 * (fabs(chassis.x_speed) + fabs(chassis.y_speed));
+    int MaxVal = 300 + 0.5 * (fabs(chassis.x_speed) + fabs(chassis.y_speed));
     if (fabs(w_error) > MaxVal)
     {
         w_error = fn * MaxVal;
@@ -185,7 +185,7 @@ void chassis_synthetic_control(void)
         ****************************************/
     motor_target[1] = 0.707f * y + 0.707f * x - Radius_[1] * w;
     motor_target[2] = -0.707f * y + 0.707f * x - Radius_[2] * w;
-    motor_target[3] = -0.707f * y + 0.707f * x + Radius_[3] * w;
+    motor_target[3] = +0.707f * y - 0.707f * x - Radius_[3] * w;
     motor_target[4] = -0.707f * y - 0.707f * x - Radius_[4] * w;
     // printf("%f      ,%f       ,%f        ,%f",motor_target[1],motor_target[2],motor_target[3],motor_target[4]);
     //再来一个限幅操作，避免单边速度过高导致控制效果不理想
@@ -206,7 +206,7 @@ void chassis_synthetic_control(void)
 
     for (i = 1; i <= 4; ++i)
     {
-        //TODO 这里我进行了修改 将两个参数重置为一个
+        // TODO 这里我进行了修改 将两个参数重置为一个
         /*
          *对电机进行遍历
          *首先获取转速期待值
@@ -216,22 +216,8 @@ void chassis_synthetic_control(void)
          */
         motor_data[i].expect = motor_target[i];
         motor_data[i].feedback = read_encoder(i);
-        if (i == 2)
-        {
-            control_val[i] = pid_control(&motor_data[i], &motor_param);
-        }
-        if (i == 4)
-        {
-            control_val[i] = pid_control(&motor_data[i], &motor_param);
-        }
-        if (i == 1)
-        {
-            control_val[i] = pid_control(&motor_data[i], &motor_param);
-        }
-        if (i == 3)
-        {
-            control_val[i] = pid_control(&motor_data[i], &motor_param);
-        }
+        control_val[i] = delta_pid(&motor_data[i], &motor_param);
+
         if (control_val[i] > MAX_CONTROL_VAL)
             control_val[i] = MAX_CONTROL_VAL;
         if (control_val[i] < -MAX_CONTROL_VAL)
@@ -240,23 +226,17 @@ void chassis_synthetic_control(void)
     }
 
     // printf("%f      ,%f       ,%f        ,%f        ,%f\r\n", fabs(read_encoder(1)), fabs(read_encoder(2)), fabs(read_encoder(3)), fabs(read_encoder(4)), motor_target[1]);
-
-    if (debug_motor_id!=0) //循迹状态下
+    // printf("%.2f\r\n", control_val[1]); // TODO 调试输出
+    if (debug_motor_id != 0)            //循迹状态下
     {
-        if( read_encoder(debug_motor_id)!=0)
         printf("%.2lf , %.2f \r\n", motor_data[debug_motor_id].feedback, motor_data[debug_motor_id].expect);
-       //printf("%.2f  %.2f ", motor_data[debug_motor_id].feedback, motor_data[debug_motor_id].expect);
-       //printf("\r\n");
-        else
-        printf("%d,%d\r\n", 0, 0);
+        // printf("%.2f  %.2f ", motor_data[debug_motor_id].feedback, motor_data[debug_motor_id].expect);
+        // printf("\r\n");
     }
 }
 void show_speed1(void)
 {
-    if (read_encoder(debug_motor_id) != 0)
-        printf("%.2lf  %.2f\r\n", motor_data[debug_motor_id].feedback, chassis.y_speed);
-    else
-        printf("%d,%d\r\n", 0, 0);
+    printf("%.2lf  %.2f\r\n", motor_data[debug_motor_id].feedback, chassis.y_speed);
 }
 int Get_X_speed(void)
 {
