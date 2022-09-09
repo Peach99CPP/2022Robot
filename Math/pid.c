@@ -2,11 +2,11 @@
  * @Author: peach 1831427532@qq.com
  * @Date: 2022-09-05 09:07:09
  * @LastEditors: peach 1831427532@qq.com
- * @LastEditTime: 2022-09-08 17:18:39
+ * @LastEditTime: 2022-09-09 12:07:18
  * @Description: ÇëÌîĞ´¼ò½é
  */
 #include "pid.h"
-
+#include "math.h"
 #define ABS(X) (((X) > 0) ? (X) : -(X))
 float Iout, Pout, Dout;
 /**********************************************************************************************************
@@ -116,4 +116,30 @@ void pid_clear(pid_data_t *data)
     data->control_output = 0;
     data->integrate = 0;
     data->err = data->dis_err = data->last_err = 0;
+}
+
+float imu_pos_pid_cal(pid_data_t *data, pid_paramer_t *para)
+{
+    data->last_err = data->err;
+    data->err = data->expect - data->feedback;
+    if (fabs(data->err) < 0.5)
+        return 0;
+    data->integrate += data->err * para->ki;
+    //»ı·ÖÏŞ·ù
+    if (para->integrate_max)
+    {
+        if (data->integrate >= para->integrate_max)
+            data->integrate = para->integrate_max;
+        if (data->integrate <= -para->integrate_max)
+            data->integrate = -para->integrate_max;
+    }
+    data->control_output = para->kp * data->err + data->integrate + para->kd * (data->err - data->last_err);
+    if (para->control_output_limit)
+    {
+        if (data->control_output >= para->control_output_limit)
+            data->control_output = para->control_output_limit;
+        if (data->control_output <= -para->control_output_limit)
+            data->control_output = -para->control_output_limit;
+    }
+    return data->control_output;
 }

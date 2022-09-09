@@ -14,15 +14,15 @@ uint32_t time;
 
 #define LINE_FACTOR 50
 
-#define MAX_SPEED 300
-#define MIN_SPEED 20
+#define MAX_SPEED 250
+#define MIN_SPEED 40
 #define LINE_ERROR_ENCODER 150
 
 #define Min_boo1 0xC8
 #define Max_boo1 0x1F4
 #define Min_speed1 150
 
-double encoder_factor = 2;
+double encoder_factor = 10;
 double en_dir, en_val;
 int dir, lines, boo_num, boo_dir;
 int count_line_status = 1, encodermove_status = 1, booo_status = 1;
@@ -280,9 +280,9 @@ void EncoderTask(void const *argument)
             pn = 1;
         while (1)
         {
-            if ((TIME_ISR_CNT - time > 10) && (en_val - (encoder_sum * ENOCDER_DIVIDE_FACTOR)) < ENCODE_THRESHOLD)
+            if ((TIME_ISR_CNT - time > 10) && ((en_val - (encoder_sum * ENOCDER_DIVIDE_FACTOR)) < ENCODE_THRESHOLD))
                 goto Encoder_Exit;
-            bias = fabs((double)en_val - (encoder_sum * ENOCDER_DIVIDE_FACTOR));
+            bias = fabs(en_val - (encoder_sum * ENOCDER_DIVIDE_FACTOR));
             variation = bias * encoder_factor;
             variation = Limit_Speed(variation);
             set_speed(variation * pn, 0, 0);
@@ -313,14 +313,16 @@ void EncoderTask(void const *argument)
             pn = 1;
         while (1)
         {
-            if ((TIME_ISR_CNT - time > 10) && ((double)en_val - (encoder_sum * ENOCDER_DIVIDE_FACTOR)) < ENCODE_THRESHOLD)
+            if (TIME_ISR_CNT - time > 300)
                 goto Encoder_Exit;
-            bias = fabs((double)en_val - (encoder_sum * ENOCDER_DIVIDE_FACTOR));
+            if ((TIME_ISR_CNT - time > 10) && ((en_val - (encoder_sum * ENOCDER_DIVIDE_FACTOR)) < ENCODE_THRESHOLD))
+                goto Encoder_Exit;
+            bias = fabs(en_val - (encoder_sum * ENOCDER_DIVIDE_FACTOR));
             variation = bias * encoder_factor;
             variation = Limit_Speed(variation);
             set_speed(0, variation * pn, 0);
             osDelay(5);
-            imu.enable_switch = 0;
+            // TODO 考虑是否在此处关闭陀螺仪
         }
     }
 Encoder_Exit:
