@@ -143,7 +143,7 @@ void chassis_synthetic_control(void)
     {
         fn = 1;
     }
-    int MaxVal = 300 + 0.5 * (fabs(chassis.x_speed) + fabs(chassis.y_speed));
+    int MaxVal = 120 + 0.5 * (fabs(chassis.x_speed) + fabs(chassis.y_speed));
     if (fabs(w_error) > MaxVal)
     {
         final_W_error = fn * MaxVal;
@@ -155,7 +155,7 @@ void chassis_synthetic_control(void)
     y_error = x_error = 0;
     x = chassis.x_speed + y_error;
     y = chassis.y_speed - x_error;
-    w = chassis.w_speed + w_error;
+    w = chassis.w_speed + final_W_error;
 
     max_val = 0; //对最大值数据进行初始化
     factor = 1;  //倍率因子初始化
@@ -220,7 +220,7 @@ void chassis_synthetic_control(void)
          */
         motor_data[i].expect = motor_target[i];
         motor_data[i].feedback = read_encoder(i);
-        control_val[i] = delta_pid(&motor_data[i], &motor_param);
+        control_val[i] = pid_control(&motor_data[i], &motor_param);
         if (control_val[i] > MAX_CONTROL_VAL)
             control_val[i] = MAX_CONTROL_VAL;
         if (control_val[i] < -MAX_CONTROL_VAL)

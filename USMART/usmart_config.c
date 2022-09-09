@@ -117,6 +117,8 @@ struct _m_usmart_nametab usmart_nametab[] =
         (void *)MV_SendCmd,
         "void MV_SendCmd(const uint8_t event_id, const int param)",
         //������
+        (void*)Wait_Switches,
+        "void Wait_Switches(int dir)",
         (void *)set_imu_status,
         "void set_imu_status(int status)",
         (void *)Set_InitYaw,

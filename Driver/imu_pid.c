@@ -69,7 +69,7 @@ float imu_correct_val(void)
     else
       if_completed = 0;
     //获取PID值
-    delta = imu_pos_pid_cal(&imu_data, &imu_para); // pid传参
+    delta = pos_pid_cal(&imu_data, &imu_para); // pid传参
                                                // printf("%.2f,%.2f,%.2f,%.2f\r\n",now_angle  ,imu.target_angle   ,imu_data.err,i)
     return delta;                              //返回计算值
   }

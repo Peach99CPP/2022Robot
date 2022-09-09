@@ -2,7 +2,7 @@
  * @Author: peach 1831427532@qq.com
  * @Date: 2022-09-05 09:07:09
  * @LastEditors: peach 1831427532@qq.com
- * @LastEditTime: 2022-09-09 12:07:18
+ * @LastEditTime: 2022-09-09 13:35:04
  * @Description: 请填写简介
  */
 #include "pid.h"
@@ -28,8 +28,8 @@ float pid_control(pid_data_t *data, pid_paramer_t *para)
     Get_Time_Period(&data->pid_controller_dt);
     controller_dt = data->pid_controller_dt.Time_Delta / 1000000.0;
     //第一次计算间隔时间将出现间隔时间很大的情况
-    // if (controller_dt < 0.001f)
-    //     return 0;
+    if (controller_dt < 0.001f)
+        return 0;
     //保存上次偏差
     data->last_err = data->err;
     //期望减去反馈得到偏差

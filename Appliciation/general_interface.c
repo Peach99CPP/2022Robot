@@ -10,7 +10,7 @@ void CountBar_Test(int num, int speed)
     {
         osDelay(5);
     }
-    osDelay(200);
-    set_speed(0, 0, 0);
     osDelay(500);
+    set_speed(0, 0, 0);
+    osDelay(100);
 }

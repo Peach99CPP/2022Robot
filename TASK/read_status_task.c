@@ -383,46 +383,46 @@ void Read_Swicth(void const *argument)
     while (!read_task_exit)
     {
         //因为GPIO口被配置成pullup，所以只有在低时才是轻触开关导通状态
-        if (Get_SW(1)==1)
+        if (Get_SW(1) == 1)
             SWITCH(1) = on; //开关状态枚举
         else
             SWITCH(1) = off;
 
-        if (Get_SW(2)==1)
+        if (Get_SW(2) == 1)
             SWITCH(2) = on;
         else
             SWITCH(2) = off;
 
-        if (Get_SW(3)==1)
+        if (Get_SW(3) == 1)
             SWITCH(3) = on;
         else
             SWITCH(3) = off;
 
-        if (Get_SW(4)==1)
+        if (Get_SW(4) == 1)
             SWITCH(4) = on;
         else
             SWITCH(4) = off;
 
-        if (Get_SW(5)==1)
+        if (Get_SW(5) == 1)
             SWITCH(5) = on;
         else
             SWITCH(5) = off;
 
-        if (Get_SW(6)==1)
+        if (Get_SW(6) == 1)
             SWITCH(6) = on;
         else
             SWITCH(6) = off;
 
-        if (Get_SW(7)==1)
+        if (Get_SW(7) == 1)
             SWITCH(7) = on;
         else
             SWITCH(7) = off;
-        
-        if (Get_SW(8)==1)
+
+        if (Get_SW(8) == 1)
             SWITCH(8) = on;
         else
             SWITCH(8) = off;
-//红外开关部分
+        //红外开关部分
         if (HAL_GPIO_ReadPin(HW_S1_GPIO_Port, HW_S1_Pin) == GPIO_PIN_SET)
             HW_SWITCH(1) = off;
         else
@@ -759,13 +759,13 @@ void Set_SwitchSpeed(int speed)
 void Wait_Switches(int dir)
 {
     /*关于运行时速度的变量,不宜过高否则不稳定*/
-    int Switch_Factor = 80;
+    int Switch_Factor = 40;
 
-    if (read_task_exit)
-        Start_Read_Switch();
+    // if (read_task_exit)
+    //     Start_Read_Switch();
 
-//    track_status(1, 0); //关闭循迹版，避免造成方向上的影响
-//    track_status(2, 0);
+    //    track_status(1, 0); //关闭循迹版，避免造成方向上的影响
+    //    track_status(2, 0);
 
     volatile static short flag1, flag2;
     short x_pn, y_pn;
@@ -773,35 +773,29 @@ void Wait_Switches(int dir)
     w1_factor = 1, w2_factor = -1;
 
     //关于参数的解析，根据方向来判定速度的分配方向
-    if (dir == 1) //正Y方向
+    if (dir == 1) //正X
     {
         // todo 经测试 速度60满足要求
-        MIN_SPEED = 60;
-        w1 = 6, w2 = 4;
+        w1 = 6, w2 = 0;
         x_pn = 1, y_pn = 0;
     }
-    else if (dir == 2)//负x方向
+    else if (dir == 2) //负x方向
     {
-        if (MIN_SPEED != 120)
-            MIN_SPEED = 90;
-        w1 = 1, w2 = 7;//视情况改变
-        x_pn = 0, y_pn = -1;
+        w1 = 1, w2 = 7; //视情况改变
+        x_pn = 1, y_pn = 0;
         return;
     }
-    else if (dir == 3) //正X方向
+    else if (dir == 3) //负X方向
     {
-        if (MIN_SPEED != 120)
-            MIN_SPEED = 90;
         w1 = 1, w2 = 7;
-        x_pn = 0, y_pn = -1;
+        x_pn = -1, y_pn = 0;
     }
     else if (dir == 4) //负Y方向
     {
-        MIN_SPEED = 60;
         w1 = 3, w2 = 5;
         x_pn = -1, y_pn = 0;
     }
-
+    MIN_SPEED = 60;
 //开始靠近
 Closing:
 #define overtimeval 8000
@@ -811,17 +805,10 @@ Closing:
     int dlt = 0;
     do
     {
-        flag1 = Get_Switch_Status(w1); //获取状态
-        flag2 = Get_Switch_Status(w2);
-        if (flag1 == err || flag2 == err)
-        {
-            Start_Read_Switch(); //防止此时任务未启动导致卡死循环
-            continue;
-        }
+        flag1 = Get_SW(w1); //获取状态
+        flag2 = Get_SW(w2);
         if (flag1 == on || flag2 == on) //当有开关触碰到时，关闭陀螺仪
-             set_imu_status(0);          //关闭陀螺仪,否则设置w速度无意义
-        else
-             set_imu_status(0);   
+            set_imu_status(0);          //关闭陀螺仪,否则设置w速度无意义
         /*下面这一句语句，只在单个开关开启时会有作用*/
         w_speed_set(Switch_Factor * (flag1 * w1_factor + flag2 * w2_factor));
         //任务调度
@@ -837,16 +824,16 @@ Closing:
     osDelay(200);
     if (flag1 == off || flag2 == off)
     {
-        MIN_SPEED /= 2; //更低的速度
+        MIN_SPEED /= 2.0; //更低的速度
         if (ABS(MIN_SPEED) < 5)
             goto switch_exit; //防止卡死在这里
         goto Closing;         //继续回到靠近的程序
     }
 switch_exit:
     //    Exit_Swicth_Read(); //用完了就关闭任务
-    set_speed(0, 0, 0);  //速度置0 防止此时出现移动
-    Set_InitYaw(0);      //修正车身角度
-     set_imu_status(1);    //修正后再打开陀螺仪
+    set_speed(0, 0, 0); //速度置0 防止此时出现移动
+    Set_InitYaw(0);     //修正车身角度
+    set_imu_status(1);  //修正后再打开陀螺仪
     // todo：调用完函数根据实际需要进行陀螺仪角度的修正
 }
 
@@ -875,7 +862,7 @@ void HWSwitch_Move(int dir, int enable_imu)
             osDelay(10);
         }
     }
-    else if (dir == 2)//我们先用二号，因为在底盘下拉出来就是这个位置，
+    else if (dir == 2) //我们先用二号，因为在底盘下拉出来就是这个位置，
     {
         while (Get_HW_Status(dir) == off)
         {
