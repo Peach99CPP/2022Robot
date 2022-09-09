@@ -24,7 +24,7 @@ pid_data_t imu_data, anglekeep_data;
 pid_paramer_t imu_para =
     {
         .kp = 6.0,
-        .ki = 0.1,
+        .ki = 0,
         .kd = 0,
         .integrate_max = 70,
         .control_output_limit = 500};
