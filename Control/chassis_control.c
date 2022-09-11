@@ -257,6 +257,17 @@ void EncoderTask(void const *argument)
 
     clear_motor_data();
     time = TIME_ISR_CNT;
+    if (en_val < 0)
+    {
+        pn = -1;
+        en_val *= -1;
+    }
+    else
+    {
+        en_val += 1;
+        pn = 1;
+    }
+
     if (en_dir == 1)
     {
         if (!Get_IfBackHome())
@@ -271,13 +282,6 @@ void EncoderTask(void const *argument)
             x_leftbar.if_switch = false;
             x_rightbar.if_switch = false;
         }
-        if (en_val < 0)
-        {
-            pn = -1;
-            en_val *= -1;
-        }
-        else
-            pn = 1;
         while (1)
         {
             if ((TIME_ISR_CNT - time > 10) && ((en_val - (encoder_sum * ENOCDER_DIVIDE_FACTOR)) < ENCODE_THRESHOLD))
@@ -304,13 +308,7 @@ void EncoderTask(void const *argument)
             x_leftbar.if_switch = false;
             x_rightbar.if_switch = false;
         }
-        if (en_val < 0)
-        {
-            pn = -1;
-            en_val *= -1;
-        }
-        else
-            pn = 1;
+
         while (1)
         {
             if (TIME_ISR_CNT - time > 300)
