@@ -15,7 +15,7 @@ uint32_t time;
 #define LINE_FACTOR 50
 
 #define MAX_SPEED 250
-#define MIN_SPEED 40
+#define MIN_SPEED 50
 #define LINE_ERROR_ENCODER 150
 
 #define Min_boo1 0xC8
@@ -254,7 +254,6 @@ void EncoderTask(void const *argument)
 #define ENOCDER_DIVIDE_FACTOR 1.0 / 50.0
 #define ENCODE_THRESHOLD 0.5
     static int pn;
-
     clear_motor_data();
     time = TIME_ISR_CNT;
     if (en_val < 0)
@@ -288,7 +287,7 @@ void EncoderTask(void const *argument)
                 goto Encoder_Exit;
             bias = fabs(en_val - (encoder_sum * ENOCDER_DIVIDE_FACTOR));
             variation = bias * encoder_factor;
-            variation = Limit_Speed(variation);
+            variation = Limit_Speed(variation)*1.5;
             set_speed(variation * pn, 0, 0);
             osDelay(5);
         }

@@ -546,199 +546,7 @@ int Get_Height(void)
     return Current_Height;
 }
 
-/**********************************************************************
-  * @Name    MV_HW_Scan
-  * @declaration :利用MV 舵控 联动对阶梯平台进行扫描并抓取
-  * @param   dir: [输入/出]  移动的方向
-                 1  为车头朝前   向左扫描   用于条形平台
-                 2  为车头朝前   向右扫描   用于条形平台
-                 5  为侧身贴边   向前移动   用于阶梯平台
-                 6  为侧身贴边   向后移动   用于阶梯平台
-**			 enable_imu: [输入/出] 是否使能IMU来保持车身角度的为直线
-  * @retval   : 无
-  * @author  peach99CPP
-***********************************************************************/
-void MV_HW_Scan(int color, int dir, int enable_imu)
-{
-    ;
-}
 
-/**
- * @description: 针对复赛的矩形和二维码的函数
- * @param {int} dir  运行方向 5为从左到右 6为从右到左
- * @param {int} color  目标的颜色 1红2蓝
- * @param {int} QR   是否开启运行
- * @param {int} imu_enable  是否启用陀螺仪辅助角度维持
- * @return {*} null
- */
-void Brick_QR_Mode(int dir, int color, int QR, int imu_enable)
-{
-    // imu_enable = true;
-    // color = Get_TargetColor();                //获取目标球的颜色
-    // Set_IMUStatus(imu_enable);                //控制陀螺仪开关
-    // MV_Stop();                                //清除标志位
-    // osDelay(100);                             //留反应时间
-    // Set_NeedUp(QR);                           //高度变换开启与关闭
-    // QR_Mode_Init((bool)QR, (QRcolor_t)color); //设置二维码的目标颜色
-    // MV_Start();                               //开启Openmv
-    // Disable_StopSignal();                     //此时不会停车
-    // Set_Update_Status(true);
-    // osDelay(300);           //等待处理缓冲数据
-    // Recover_EnableStatus(); //开启mv和二维码工作 解除的是软件锁
-    // MV_SendCmd(5, color);   //矩形模式，扫方块
-    // StartCheckQrUpadte();   //开始运行检查动作组
-    // if (dir == 5 || dir == 6)
-    // {
-    //     Action_Gruop(14, 1);     //升起
-    //     Set_IFUP(true);          //标志位
-    //     Judge_Side(dir);         //根据方向设置起始高度对机械臂动作组进行变换
-    //     Wait_Servo_Signal(5000); //等待舵机的完成信号 最多的等待5s
-    //     QR_Mode_Height();        //根据模式进行高度变换 此时的目标高度来自judge_side的赋值
-    //     Start_HeightUpdate();    //因为决定自己执行高度变换 所以不需要在任务开头执行高度变换
-    //     if (dir == 5)
-    //     {
-    //         while (Get_Side_Switch(1) == off)
-    //         {
-    //             set_speed(0, MIN_ * 0.5, 0); //确保此时开关的工作状态正常
-    //             osDelay(5);                  //避免开关卡死
-    //         }
-    //     dir5_Start_Symbol:
-    //         // 换言之 如果高度更新未完成 或者 停车命令被启用 或者 此时已经走出区域（红外开关off）
-    //         // todo 可能需要加100nms延迟来确保扫到
-    //         while (Get_Stop_Signal() == false && Get_Side_Switch(1) == on && Get_Update_Result() && !Get_temp_var()) //满足条件则正常运行
-    //         {
-    //             set_speed(VERTICAL, MIN_, 0);
-    //             osDelay(5);
-    //         }
-    //         set_speed(0, 0, 0);
-    //         if (Get_temp_var()) //判断一下需要临时走一会的条件
-    //         {
-    //             printf("\n\t因为小二维码而临时前进200ms\n");
-    //             set_speed(VERTICAL, MIN_, 0);
-    //             Set_IMUStatus(true);
-    //             osDelay(200);
-    //             Set_temp_var(false);
-    //             set_speed(0, 0, 0);
-    //             osDelay(500); //给时间扫描
-    //             goto dir5_Start_Symbol;
-    //         }                                                                                   //不满足先停车
-    //         if (Get_Side_Switch(1) == off && Get_Stop_Signal() == false && Get_Update_Result()) //此时达到边界
-    //         {
-    //             Action_Gruop(4, 1);                 //收起机械臂
-    //             Set_IFUP(false);                    //标记此时收起
-    //             Exit_Height_Upadte();               //退出高度变换任务
-    //             MV_Stop();                          //停止处理响应
-    //             Wait_Servo_Signal(Wait_Servo_Done); //等待舵控返回结束信息
-    //             return;
-    //         }
-    //         else if (Get_Update_Result() == false) //此时是因为还在进行高度变换
-    //         {
-    //             Wait_Update_finish(); //等待完成
-    //             Recover_EnableStatus();
-    //             osDelay(100);
-    //             goto dir5_Start_Symbol; //回到开头位置
-    //         }
-    //         else //停止信号被触发或者双重情况
-    //         {
-    //             osDelay(2);                         //确保舵控标志位的执行
-    //             Wait_Servo_Signal(Wait_Servo_Done); //等待舵控的信号完成 todo 需要在此之前操控servo_flag
-    //             if (Get_RecCount() == 1)            //如果第一次执行的话 特殊处理一下
-    //             {
-    //                 Action_Gruop(48, 1); //更改
-    //                 printf("\n\t第一个矩形 调节拨片\n");
-    //                 Wait_Servo_Signal(Wait_Servo_Done);
-    //             }
-    //             QR_Mode_Height();       //执行高度变换
-    //             Disable_StopSignal();   //清除停车标志位，此时可以开车
-    //             Recover_EnableStatus(); //恢复使能状态
-    //             osDelay(100);           //没啥用，求个心安
-    //             goto dir5_Start_Symbol;
-    //         }
-    //     }
-    //     else if (dir == 6)
-    //     {
-    //         while (Get_Side_Switch(2) == off)
-    //         {
-    //             set_speed(0, -MIN_ * 0.5, 0);
-    //             osDelay(5); //避免开关卡死
-    //         }
-    //     dir6_Start_Symbol:
-    //         while (Get_Stop_Signal() == false && Get_Side_Switch(2) == on && Get_Update_Result()) //为了多走一点路程，临时改为1号
-    //         {
-    //             set_speed(VERTICAL, -MIN_ * 0.7, 0);
-    //             osDelay(5);
-    //         }
-    //         set_speed(0, 0, 0);            //停车再说
-    //         if (Get_Side_Switch(2) == off) //是边缘的红外导致的停车
-    //         {
-    //             Action_Gruop(4, 1); //收起机械臂
-    //             Set_IFUP(false);
-    //             Exit_Height_Upadte(); //结束任务
-    //             MV_Stop();            //停止处理响应
-    //             Wait_Servo_Signal(Wait_Servo_Done);
-    //             return; //退出
-    //         }
-    //         else if (Get_Update_Result() == false)
-    //         {
-    //             Wait_Update_finish();
-    //             osDelay(100);
-    //             goto dir6_Start_Symbol; //回到开头位置
-    //         }
-    //         else
-    //         {
-    //             Wait_Servo_Signal(Wait_Servo_Done);
-    //             QR_Mode_Height();
-    //             Disable_StopSignal(); //清除停车标志位，此时可以开车
-    //             Recover_EnableStatus();
-    //             osDelay(100);           //没啥用，求个心安
-    //             goto dir6_Start_Symbol; //回到开头位置
-    //         }
-    //     }
-    // }
-    // MV_Stop();           //关闭MV的所有功能 避免此时扫到仓库中物料触发命令
-    // Set_IMUStatus(true); // 记得检查  todo
-}
-/**
- * @name: Kiss_Ass
- * @brief: 倒球使用 屁股对准门
- * @param {int} dir 方向  1 代表左 2代表向右
- * @param {int} enable_imu 陀螺仪使能开关
- * @return {*}
- */
-void Kiss_Ass(int dir, int enable_imu)
-{
-    Set_IMUStatus(enable_imu); //测试一下不适用陀螺仪的运行状态
-    if (dir == 1)
-    {
-        while (Get_HW_Status(dir + 2) == off)
-        {
-            set_speed(MIN_, 0, 0);
-            osDelay(5);
-        }
-        while (Get_HW_Status(dir + 2) == on)
-        {
-            set_speed(-MIN_ * 2, 0, 0);
-            osDelay(5);
-        }
-        set_speed(0, 0, 0);
-        // TODO 在此时运行倒下去的动作组，把东西倒下去F
-    }
-    else if (dir == 2)
-    {
-        while (Get_HW_Status(dir + 2) == off)
-        {
-            set_speed(-MIN_, 0, 0);
-            osDelay(5);
-        }
-        while (Get_HW_Status(dir + 2) == on)
-        {
-            set_speed(MIN_ * 2, 0, 0);
-            osDelay(5);
-        }
-        set_speed(0, 0, 0);
-        // TODO 在此时运行倒下去的动作组，把东西倒下去
-    }
-}
 /**
  * @name: Set_SwitchSpeed
  * @brief: 设置撞击挡板的速度
@@ -821,7 +629,7 @@ Closing:
             goto switch_exit;
         }
     } while (flag1 == off || flag2 == off); //只有两个都接通，才退出该循环
-    osDelay(200);
+    osDelay(300);
     if (flag1 == off || flag2 == off)
     {
         MIN_SPEED /= 2.0; //更低的速度
@@ -847,18 +655,18 @@ switch_exit:
  ***********************************************************************/
 void HWSwitch_Move(int dir, int enable_imu)
 {
-#define Speed_Factor_HW 3
+#define Speed_Factor_HW 1.3
     Set_IMUStatus(enable_imu);
-    if (dir == 1)
+    if (dir == 0)
     {
-        while (Get_HW_Status(dir) == off)
+        while (Get_HW(dir) == off)
         {
-            set_speed(-MIN_ * Speed_Factor_HW, 0, 0); //把速度增大 避免出现无法启动的现象
+            set_speed(0, -MIN_ * Speed_Factor_HW, 0); //把速度增大 避免出现无法启动的现象
             osDelay(5);
         }
-        while (Get_HW_Status(dir) == on)
+        set_speed(VERTICAL, MIN_ * Speed_Factor_HW, 0);
+        while (Get_HW(dir) == on)
         {
-            set_speed(-MIN_ * Speed_Factor_HW, VERTICAL, 0);
             osDelay(10);
         }
     }

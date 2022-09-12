@@ -78,13 +78,6 @@ struct _m_usmart_nametab usmart_nametab[] =
 
 ***/
 #endif
-#if DEBUG_SWITCH == 1
-        /***�ᴥ���ز���***/
-        (void *)QR_Scan,
-        "void QR_Scan(int status, int color, int dir, int enable_imu)",
-        (void *)MV_HW_Scan,
-        "void MV_HW_Scan(int color, int dir, int enable_imu)",
-#endif
 #if Debug_Servo == 1
 
         (void *)Ass_Door, //����ʱƨ���ϵ���
@@ -103,12 +96,8 @@ struct _m_usmart_nametab usmart_nametab[] =
         "void set_speed(int x, int y, int w)",
         (void *)move_by_encoder,
         "void move_by_encoder(int  direct, int val)",
-        // (void *)direct_move,
-        // "void direct_move(int direct, int line_num, int edge_if,int imu_if)",
         (void *)move_by_encoder,
         "void move_by_encoder(int direct, int val)",
-        (void *)direct_move,
-        "void direct_move(int direct, int line_num, int imu_if)",
         // mv����
         (void *)MV_Start,
         "void MV_Start(void)",
@@ -119,6 +108,8 @@ struct _m_usmart_nametab usmart_nametab[] =
         //������
         (void*)Wait_Switches,
         "void Wait_Switches(int dir)",
+        (void*)HWSwitch_Move,
+        "void HWSwitch_Move(int dir, int enable_imu)",
         (void *)set_imu_status,
         "void set_imu_status(int status)",
         (void *)Set_InitYaw,
