@@ -1,18 +1,4 @@
-/************************************************************************
-  *
-  * FileName   : servo.h
-  * Version    : v1.0
-  * Author     : 妗冨瓙
-  * Date       : 2021-09-10
-  * Description:
-  * Function List:
-    1. ....
-       <version>:
-  <modify staff>:
-          <data>:
-   <description>:
-    2. ...
-*******************************************************************************/
+
 
 #ifndef __SERVO_H_
 #define __SERVO_H_
@@ -53,15 +39,12 @@ void Disable_ServoFlag(void);                                                  /
 
 void Wait_Servo_Signal(long wait_time_num); //创建超时任务 等待舵控指令
 void Ass_Door(int status);                  //打开屁股的门将球倒进去
-void Lateral_infrared(int status);          //侧面伸出来的红外
-void Baffle_Control(int up_dowm);           //控制挡板的升降
-void Different_Dir(int if_left);            //往左边仓库还是右边仓库
 
 bool Get_IFUP(void);        //机械臂是否已经升起
 void Set_IFUP(bool status); //设置机械臂状态
 
 uint8_t Get_Uint16_Transform(uint16_t obj, char type2trans);
-void ActionGroup(uint8_t groupId);
+void ActionGroup(uint8_t groupId, uint16_t run_times);
 void ServoInfBack_IRQ(void);
 void Servo_Rx_Deinit(void);
 void Error_Report(int type);

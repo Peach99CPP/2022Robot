@@ -50,7 +50,7 @@ uint8_t Get_Uint16_Transform(uint16_t obj, char type2trans)
  * @param {uint8_t} groupId动作组编号
  * @return {*} 无
  */
-void ActionGroup(uint8_t groupId)
+void ActionGroup(uint8_t groupId, uint16_t run_times)
 {
     //绝大多数情况下 只运行一次动作组 因此此处默认为1次
     //如果需要多次运行的 后续加特殊判断即可
@@ -61,28 +61,30 @@ void ActionGroup(uint8_t groupId)
         Error_Report(2); //进行报错处理
         return;
     }
-    else if (groupId == SpecialID)
+    else if (run_times == 0)
     {
-        defaultTime *= SpecialTime; //需要确认类型相同 以免在乘法时发生变化
+        Error_Report(3); //进行报错处理
+        return;
     }
-    LastID = groupId;    //更新数据
-    Disable_ServoFlag(); //拉低标志位
+    defaultTime *= run_times; //确认运行次数
+    LastID = groupId;         //更新数据
+    Disable_ServoFlag();      //拉低标志位
     //帧头的标记做好
     servo_controler.cmd_buffer[0] = servo_controler.cmd_buffer[1] = FrameHead;
     servo_controler.cmd_buffer[2] = cmdLength;        //数据产长度的标记
     servo_controler.cmd_buffer[3] = Action_Group_Run; //指令类型
     servo_controler.cmd_buffer[4] = groupId;          //动作组编号
-    //取第8位
+    //取低8位
     servo_controler.cmd_buffer[5] = Get_Uint16_Transform(defaultTime, 'l');
     //取高8位
     servo_controler.cmd_buffer[6] = Get_Uint16_Transform(defaultTime, 'h');
     HAL_UART_Transmit(servo_controler.uart,
                       servo_controler.cmd_buffer,
-                      cmdLength + 3,
+                      cmdLength + 2,
                       0xff);
     memset(servo_controler.cmd_buffer, //清空 没啥大必要
            0,
-           (cmdLength + 3) * sizeof(uint8_t));
+           (cmdLength + 2) * sizeof(uint8_t));
 }
 /**
  * @description:舵控的中断处理函数
@@ -112,7 +114,7 @@ void ServoInfBack_IRQ(void)
         if (rec_state == 2)
         {
             servo_controler.rec_buffer[servo_controler.rec_index++] = rec_data;
-            if (servo_controler.rec_index >= 5)
+            if (servo_controler.rec_index >= servo_controler.rec_buffer[0])
             {
 
                 if (servo_controler.rec_buffer[1] == Action_Group_Completed)
@@ -120,6 +122,7 @@ void ServoInfBack_IRQ(void)
                     //上一次动作组运行完成
                     if (servo_controler.rec_buffer[2] == LastID)
                     {
+                        printf("上一个动作组运行完成\n");
                         Enable_ServoFlag(); //拉高标志位
                     }
                     else //说明出错了
@@ -157,6 +160,12 @@ void Error_Report(int type)
         printf("角度值超限制\r\n");
     else if (type == 2)
         printf("动作组编号超限制\r\n");
+    else if (type == 3)
+    {
+        printf("收到的动作组执行指令有误");
+    }
+    else if (type == 4)
+        printf("运行次数不能为无限\r\n");
     else
         printf("舵控发生未知错误\r\n");
 }
@@ -383,96 +392,5 @@ void Wait_Servo_Signal(long wait_time_num)
         set_speed(0, 0, 0); //等待过程中是停车的
         temp_time += 5;
         osDelay(5);
-    }
-}
-
-/**********************************************************************
- * @Name    Lateral_infrared
- * @declaration : 侧面红外的开关
- * @param   status: [输入/出] 展开或者收起 1展开 0收起
- * @retval   :无
- * @author  peach99CPP
- ***********************************************************************/
-void Lateral_infrared(int status)
-{
-    if (status)
-    {
-        Action_Gruop(13, 1);
-        Wait_Servo_Signal(Wait_Time);
-    }
-    else
-    {
-        Action_Gruop(12, 1);
-        Wait_Servo_Signal(Wait_Time);
-    }
-}
-
-/**********************************************************************
- * @Name    Ass_Door
- * @declaration : 开启倒球的开关
- * @param   status: [输入/出]  开关或者关闭
- * @retval   : 无
- * @author  peach99CPP
- ***********************************************************************/
-void Ass_Door(int status)
-{
-    if (status)
-    {
-        Action_Gruop(8, 1);
-        Wait_Servo_Signal(Wait_Time);
-        Action_Gruop(31, 5);
-        Wait_Servo_Signal(Wait_Time * 20);
-        Action_Gruop(31, 5);
-        Wait_Servo_Signal(Wait_Time * 20);
-        osDelay(2000);
-        Action_Gruop(7, 1);
-        Wait_Servo_Signal(Wait_Time);
-    }
-    else
-    {
-        Action_Gruop(7, 1);
-        Wait_Servo_Signal(Wait_Time);
-    }
-}
-
-/**********************************************************************
- * @Name    Baffle_Control
- * @declaration : 控制挡板
- * @param   up_dowm: [输入/出]  升起或者降落
- * @retval   : 无
- * @author  peach99CPP
- ***********************************************************************/
-void Baffle_Control(int up_dowm)
-{
-    if (up_dowm) //升起
-    {
-        Action_Gruop(9, 1); //升起
-        Wait_Servo_Signal(Wait_Time);
-    }
-    else
-    {
-        Action_Gruop(10, 1);
-        Wait_Servo_Signal(Wait_Time);
-    }
-}
-
-/**********************************************************************
- * @Name    Different_Dir
- * @declaration : 不同方向的方向
- * @param   if_left: [输入/出]  左或者右
- * @retval   : 无
- * @author  peach99CPP
- ***********************************************************************/
-void Different_Dir(int if_left)
-{
-    if (if_left)
-    {
-        Action_Gruop(10, 1); // todo 具体哪个动作组还没确定，等待确定
-        Wait_Servo_Signal(Wait_Time);
-    }
-    else
-    {
-        Action_Gruop(10, 1);
-        Wait_Servo_Signal(Wait_Time);
     }
 }
