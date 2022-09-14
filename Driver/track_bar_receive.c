@@ -11,7 +11,9 @@ extern volatile uint32_t TIME_ISR_CNT;
 int SW_data[9]; //ï¿½á´¥ï¿½ï¿½ï¿½ï¿½
 int HW_data[4];
 uint16_t SW_rec, HW_rec; //ï¿½ï¿½ï¿½â£¬ï¿½á´¥ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Õµï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?
-static bool hw_update_countLimit = false;
+bool hw_update_countLimit = false;
+bool hw_updateLock[3] = {false};
+uint8_t Hw_BarCount[3] = {0};
 int US_data_H; //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Åºï¿½
 int US_data_L;
 int US_data;
@@ -448,7 +450,6 @@ void Chassis_decode(void)
     static uint8_t AVaiable_Row;                    //ï¿½ï¿½ï¿½Ãµï¿½ï¿½Â±ï¿½
     AVaiable_Row = Get_AvaibleRow_ID(AVaiable_Row); //ï¿½ï¿½ï¿½ï¿½Î»ï¿½Ã¸ï¿½ï¿½ï¿½
     float track_value = 0, temp_val;                //ï¿½ï¿½ØµÄ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿?
-
     if (AVaiable_Row != 0XFF)
     {
         //ï¿½ï¿½ï¿½ï¿½ÄºÍ¼ï¿½ï¿½é¿´ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
@@ -519,6 +520,7 @@ void Chassis_decode(void)
                     {
                         go_HW(&HW, i);
                     }
+                    Count_BarCount();//TODO ·ÅÔÚÕâÀïÀ´¼ÆËãºìÍâµÄÊı¾İ
                     // printf("%d   ,%d    ,%d\r\n",HW.data[0],HW.data[1],HW.data[2]);
                     break;
 
@@ -687,7 +689,6 @@ void count_bar(ALLData_t *boo, ALLData_t *hw, int id) //ÓÃÀ´ÊıÄ¾°å¸öÊı
     {
         hw_update_countLimit = false;
     }
-
 #if use_old
     if (boo->flag[id] == 0)
     {
@@ -715,10 +716,38 @@ void count_bar(ALLData_t *boo, ALLData_t *hw, int id) //ÓÃÀ´ÊıÄ¾°å¸öÊı
 }
 int Get_HwBarCount(int id)
 {
-    return  Boo.count;
+    return Boo.count;
 }
 void Clear_HWCount(void)
 {
     Boo.count = 0;
     Boo2.count = 0;
+}
+void Count_BarCount(void)
+{
+    for (uint8_t idx = 0; idx < 3; idx += 2)
+    {
+        if (!hw_updateLock[idx])
+        {
+            if (HW.flag[idx] == 1)
+            {
+
+                Hw_BarCount[idx]++;
+                hw_updateLock[idx] = true;
+            }
+        }
+        else if (HW.flag[idx] == 0)
+        {
+            hw_updateLock[idx] = false;
+        }
+    }
+}
+int Get_BarCount(int idx)
+{
+    return Hw_BarCount[idx];
+}
+void Init_BarCount(int idx)
+{
+    hw_updateLock[idx] = false;
+    Hw_BarCount[idx] = 0;
 }

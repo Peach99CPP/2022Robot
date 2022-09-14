@@ -14,7 +14,7 @@ uint32_t time;
 
 #define LINE_FACTOR 50
 
-#define MAX_SPEED 250
+#define MAX_SPEED 150
 #define MIN_SPEED 50
 #define LINE_ERROR_ENCODER 150
 

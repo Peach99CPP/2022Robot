@@ -106,9 +106,9 @@ struct _m_usmart_nametab usmart_nametab[] =
         (void *)MV_SendCmd,
         "void MV_SendCmd(const uint8_t event_id, const int param)",
         //������
-        (void*)Wait_Switches,
+        (void *)Wait_Switches,
         "void Wait_Switches(int dir)",
-        (void*)HWSwitch_Move,
+        (void *)HWSwitch_Move,
         "void HWSwitch_Move(int dir, int enable_imu)",
         (void *)set_imu_status,
         "void set_imu_status(int status)",
@@ -117,16 +117,10 @@ struct _m_usmart_nametab usmart_nametab[] =
         (void *)Turn_angle,
         "void Turn_angle(int mode, int angle, int track_enabled)",
         //������
-        (void *)BOO_Begin,
-        "void BOO_Begin(int direct,int boo_num)",
-        (void *)go_two_bar,
-        "void go_two_bar(void)",
-        (void *)go_warehouse,
-        "void go_warehouse(void)",
-        (void *)begin_all,
-        "void begin_all(int status)",
-        (void *)CountBar_Test,
-        "void CountBar_Test(int num,int speed)",
+        (void *)ActionGroup,
+        "void ActionGroup(uint8_t groupId, uint16_t run_times)",
+        (void *)Move_CountBar,
+        "void Move_CountBar(int id, int num, int speed)",
 };
 ///////////////////////////////////END///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////

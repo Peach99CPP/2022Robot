@@ -655,7 +655,7 @@ switch_exit:
  ***********************************************************************/
 void HWSwitch_Move(int dir, int enable_imu)
 {
-#define Speed_Factor_HW 1.3
+#define Speed_Factor_HW 0.8
     Set_IMUStatus(enable_imu);
     if (dir == 0)
     {
@@ -670,42 +670,16 @@ void HWSwitch_Move(int dir, int enable_imu)
             osDelay(10);
         }
     }
-    else if (dir == 2) //我们先用二号，因为在底盘下拉出来就是这个位置，
+    else if(dir==1)
     {
-        while (Get_HW_Status(dir) == off)
+        while (Get_HW(dir) == off)
         {
-            set_speed(MIN_ * Speed_Factor_HW, 0, 0);
+            set_speed(0, -MIN_ * Speed_Factor_HW, 0); //把速度增大 避免出现无法启动的现象
             osDelay(5);
         }
-        while (Get_HW_Status(dir) == on)
+        set_speed(-VERTICAL, MIN_ * Speed_Factor_HW, 0);
+        while (Get_HW(dir) == on)
         {
-            set_speed(MIN_ * Speed_Factor_HW, -VERTICAL, 0);
-            osDelay(10);
-        }
-    }
-    else if (dir == 5)
-    {
-        while (Get_Side_Switch(1) == off)
-        {
-            set_speed(0, MIN_ * Speed_Factor_HW, 0);
-            osDelay(5);
-        }
-        while (Get_Side_Switch(1) == on)
-        {
-            set_speed(VERTICAL, MIN_ * Speed_Factor_HW, 0);
-            osDelay(10);
-        }
-    }
-    else if (dir == 6)
-    {
-        while (Get_Side_Switch(2) == off)
-        {
-            set_speed(0, -MIN_ * Speed_Factor_HW, 0);
-            osDelay(5);
-        }
-        while (Get_Side_Switch(2) == on)
-        {
-            set_speed(VERTICAL, -MIN_ * Speed_Factor_HW, 0);
             osDelay(10);
         }
     }

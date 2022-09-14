@@ -22,7 +22,7 @@ bool Get_IFUP(void)
 
 #define Action_Group_Run 0x06 //指定运行动作组的指令类型
 #define Action_Group_Completed 0x08
-#define ID_Max 255
+#define ID_Max 15
 #define FrameHead 0X55             //帧头
 #define SpecialID 0xFF             //仅用于标记 后续根据实际需求更改
 #define SpecialTime (uint16_t)0X00 //同上 组合使用
@@ -56,7 +56,7 @@ void ActionGroup(uint8_t groupId, uint16_t run_times)
     //如果需要多次运行的 后续加特殊判断即可
     uint8_t cmdLength = 0X05;    //数据长度的标志 固定的5
     uint16_t defaultTime = 0X01; //默认运行1次
-    if (groupId > ID_Max || groupId == 0)
+    if (groupId > ID_Max)
     {
         Error_Report(2); //进行报错处理
         return;

@@ -109,4 +109,7 @@ int Get_HW(int id);
 void count_bar(ALLData_t *boo, ALLData_t *hw, int id);
 int Get_HwBarCount(int id);
 void Clear_HWCount(void);
+int Get_BarCount(int idx);
+void Init_BarCount(int idx);
+void Count_BarCount(void);
 #endif
