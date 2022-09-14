@@ -655,7 +655,7 @@ switch_exit:
  ***********************************************************************/
 void HWSwitch_Move(int dir, int enable_imu)
 {
-#define Speed_Factor_HW 0.8
+#define Speed_Factor_HW 1.2
     Set_IMUStatus(enable_imu);
     if (dir == 0)
     {

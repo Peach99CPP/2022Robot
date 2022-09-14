@@ -2,7 +2,7 @@
  * @Author: peach 1831427532@qq.com
  * @Date: 2022-09-05 14:16:44
  * @LastEditors: peach 1831427532@qq.com
- * @LastEditTime: 2022-09-14 16:27:06
+ * @LastEditTime: 2022-09-14 23:11:35
  * @FilePath: \MDK-ARMd:\robot\robot\Appliciation\general_interface.c
  * @Description:
  *
@@ -10,6 +10,10 @@
  */
 
 #include "general_interface.h"
+
+#define Wait_Dealy_MAX 30000
+#define Line_Type 1
+#define Encoder_Type 2
 /**
  * @description: 通过调用红外俩计算板子数量
  * @param {int} id使用哪个红外
@@ -34,4 +38,41 @@ void Move_CountBar(int id, int num, int speed)
     osDelay(200);
     set_speed(0, 0, 0);
     osDelay(100);
+}
+void Run4WholeGame(void)
+{
+    move_by_encoder(1, 180);
+    Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
+    Move_CountBar(2, 2, 120);
+    Wait_Switches(1);
+    HWSwitch_Move(0, 1);
+    move_by_encoder(2, -65);
+    Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
+    ActionGroup(0, 1);
+    while (!Get_Servo_Flag())
+        osDelay(10);
+    osDelay(2000);
+    ActionGroup(1, 1);
+    move_by_encoder(1, -80);
+    Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
+
+    Move_CountBar(0, 2, -120);
+    Turn_angle(1, 180, 0);
+    Wait_Switches(3);
+    while (!Get_Servo_Flag())
+        osDelay(10);
+    ActionGroup(6, 1);
+    while (!Get_Servo_Flag())
+        osDelay(10);
+    HWSwitch_Move(1, 1);
+    ActionGroup(4, 1);
+    Wait_Servo_Signal(Wait_Dealy_MAX);
+    ActionGroup(7, 1);
+    Wait_Servo_Signal(Wait_Dealy_MAX);
+    ActionGroup(5, 1);
+    move_by_encoder(2, 680);
+    Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
+    Turn_angle(1, -90, 0);
+    move_by_encoder(2, 240);
+    Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
 }

@@ -22,7 +22,9 @@
 #include "cmsis_os.h"
 #include "FreeRTOS.h"
 #include "task.h"
+#include "servo.h"
 
 void Move_CountBar(int id, int num, int speed);
+void Run4WholeGame(void);
 
 #endif

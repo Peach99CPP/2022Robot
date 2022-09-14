@@ -121,6 +121,8 @@ struct _m_usmart_nametab usmart_nametab[] =
         "void ActionGroup(uint8_t groupId, uint16_t run_times)",
         (void *)Move_CountBar,
         "void Move_CountBar(int id, int num, int speed)",
+        (void*)Run4WholeGame,
+        "void Run4WholeGame(void)",
 };
 ///////////////////////////////////END///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////

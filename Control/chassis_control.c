@@ -429,7 +429,7 @@ void Comfirm_Online(int dir)
  */
 long Wait_OKInf(int type, long wait_time)
 {
-    long temp_time = 100;
+    long temp_time = 5;
     if (type == 1)
     {
         osDelay(temp_time);

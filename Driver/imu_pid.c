@@ -149,7 +149,7 @@ void Turn_angle(int mode, int angle, int track_enabled)
       imu.target_angle = angle;
     osDelay(20); //确保下面的判断是有效的 而不会被立马执行而跳过
     while (!get_turn_status())
-      osDelay(2); //转动结束再退出该函数
+      osDelay(10); //转动结束再退出该函数
     //开两秒循迹后关闭
     set_speed(0, 0, 0);
     if (track_enabled)

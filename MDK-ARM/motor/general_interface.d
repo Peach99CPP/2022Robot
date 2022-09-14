@@ -72,3 +72,4 @@ motor\general_interface.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS
 motor\general_interface.o: ../TASK/read_status.h 
 motor\general_interface.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
 motor\general_interface.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+motor\general_interface.o: ../Module/servo.h
