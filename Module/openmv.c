@@ -48,20 +48,6 @@ void Disc_Report(void)
         color_val++;
     }
 }
-int Get_DiscStatus(void)
-{
-    osDelay(5);         //防止整个系统被卡死 5ms为周期进行查询
-    if (color_val == 1) //需要切换到黄球
-    {
-        return 1;
-    }
-    else if (color_val == 2) //表明此时都抓完了
-    {
-        return 2;
-    }
-    else
-        return 0;
-}
 
 void Set_MV_Mode(bool mode)
 {
@@ -79,28 +65,15 @@ bool Get_MV_Mode(void)
  * @retval   :
  * @author  peach99CPP
  ***********************************************************************/
-void cmd_encode(const uint8_t event_id, int param)
+void cmd_encode(const uint8_t event_id, uint8_t param)
 {
-    static uint8_t pos_flag;
-    if (param > 0)
-        pos_flag = 1;
-    else
-    {
-        pos_flag = 2;
-        param *= -1;
-    }
 
-    uint8_t h_byte, l_byte; //获取参数的高8位和低8位
-    h_byte = (param >> 8);
-    l_byte = (param & 0xff);
     //定义通讯协议
     MV.mv_cmd[0] = START_BYTE; //帧头
     MV.mv_cmd[1] = event_id;   //触发的事件id
-    MV.mv_cmd[2] = pos_flag;
-    MV.mv_cmd[3] = l_byte;                                           //参数低8位
-    MV.mv_cmd[4] = h_byte;                                           //参数高8位
-    MV.mv_cmd[5] = (uint8_t)(event_id + pos_flag + h_byte + l_byte); //和校验
-    MV.mv_cmd[6] = END_BYTE;                                         //帧尾
+    MV.mv_cmd[2] = param;
+    MV.mv_cmd[3] = (uint8_t)(event_id + param); //和校验
+    MV.mv_cmd[4] = END_BYTE;                    //帧尾
 }
 void MV_SendCmd(const uint8_t event_id, const int param)
 {
@@ -118,32 +91,31 @@ void MV_SendCmd(const uint8_t event_id, const int param)
  ***********************************************************************/
 void MV_IRQ(void)
 {
-    if (MV.RX_Status < 2) //未接收完成
+    uint8_t rec_data = MV.mv_uart->Instance->RDR;
+    if (MV.RX_Status == 0)
     {
-        uint8_t rec_data = MV.mv_uart->Instance->RDR; //读取本次接收的值
-        if (rec_data == START_BYTE && MV.RX_Status == 0)
+        if (rec_data == START_BYTE)
         {
             MV.RX_Status = 1; //读到帧头，做标记，直接退出
             MV.rec_len = 0;
             return;
         }
-        if (MV.RX_Status == 1) //收到帧头后
+    }
+    else if (MV.RX_Status == 1)
+    {
+        if (rec_data == END_BYTE && MV.rec_len == BUFFER_SIZE - 2)
         {
-            if (rec_data == END_BYTE && MV.rec_len == 5) //帧头帧尾都接收到了,为了避免PID传输过程中出错，需要指定接收长度
+            MV_rec_decode();
+            MV.RX_Status = 0;
+        }
+        else
+        {
+            MV.rec_buffer[MV.rec_len++] = rec_data; //存入数组
+            if (MV.rec_len == MAX_REC_SIZE)
             {
-                MV.RX_Status = 2; //标记接收完成
-                MV_rec_decode();  //对接收到的内容进行解码操作
-            }
-            else
-            {
-                //未收到帧尾，此时是数据内容
-                MV.rec_buffer[MV.rec_len++] = rec_data; //存入数组
-                if (MV.rec_len == MAX_REC_SIZE)
-                {
-                    MV.RX_Status = 0; //防止因为出错导致卡死
-                    MV.rec_len = 0;
-                    memset(MV.rec_buffer, 0, sizeof(MV.rec_buffer));
-                }
+                MV.RX_Status = 0; //防止因为出错导致卡死
+                MV.rec_len = 0;
+                memset(MV.rec_buffer, 0, sizeof(MV.rec_buffer));
             }
         }
     }
@@ -158,50 +130,19 @@ void MV_IRQ(void)
  ***********************************************************************/
 void MV_rec_decode(void)
 {
-    static int pn = 1; //正负标志符  后续会不断进行修改 为了避免性能浪费直接定义静态变量
-    if (MV.rec_buffer[0] + MV.rec_buffer[1] + MV.rec_buffer[2] + MV.rec_buffer[3] == MV.rec_buffer[4])
+    if (MV.rec_buffer[0] + MV.rec_buffer[1] == MV.rec_buffer[2])
     {
-        //根据参数内容对参数进行处理
-        if (MV.rec_buffer[1] == 1)
-            pn = 1;
-        else
-            pn = -1;
         mv_rec.event = MV.rec_buffer[0];
-        mv_rec.param = (MV.rec_buffer[2] + (MV.rec_buffer[3] << 8)) * pn;
+        mv_rec.param = MV.rec_buffer[1];
         MV_Decode();
         mv_rec.event = 0, mv_rec.param = 0; //使用完就清除
         MV.rec_len = 0;                     //重置
-        MV.RX_Status = 0;                   //重置
+        MV.RX_Status = 0;
     }
     //处理完之后记得重新初始化结构体中的rec_len和RX_status变量，避免出错
-    ;
 }
 
 /****上面是底层实现，下面是上层的应用****/
-
-/**********************************************************************
- * @Name    MV_PID
- * @declaration :让MV返回PID信号
- * @param   None
- * @retval   :
- * @author  peach99CPP
- ***********************************************************************/
-void MV_PID(void)
-{
-    MV_SendCmd(2, 0);
-}
-
-/**********************************************************************
- * @Name    MV_SendOK
- * @declaration :向openmv发送OK信号
- * @param   None
- * @retval   : 无
- * @author  peach99CPP
- ***********************************************************************/
-void MV_SendOK(void)
-{
-    MV_SendCmd(4, 0);
-}
 
 /**********************************************************************
  * @Name    MV_Decode
@@ -221,15 +162,23 @@ void MV_Decode(void)
 #define BAR_Signal 0x09
 #define BAR_Action 30
 #define MV_BACK 0x66
-
 #define TarDiscId 0x08
 #define YelDiscId 0x09
 #define TarDisc 40
 #define YelDisc 41
+
+#define MV_Blob 0X02
     if (Get_MV_Mode()) //只有此时mv是对信号响应，才进入下面的逻辑判断
     {
         if (Get_Servo_Flag()) //空闲，可以接收指令 此时openmv和舵控都准备好执行指令
         {
+            printf("1");
+            if(mv_rec.event == MV_Blob)
+            {
+                ActionGroup(3,1);
+                printf("拨球\n");
+            }
+#if use_old
             static int mode;
             mode = Get_TargetColor(); // 1红2蓝
             if (mv_rec.event == Ball_Signal)
@@ -354,6 +303,7 @@ void MV_Decode(void)
             {
                 printf("收到回应指令 id: %d\tparam: %d\n", mv_rec.event, mv_rec.param); //针对回应指令做特殊处理
             }
+#endif
         }
     }
 }
@@ -405,42 +355,6 @@ void MV_Start(void)
 {
     Set_MV_Mode(true);
     MV_SendCmd(0, 0);
-}
-
-/**********************************************************************
- * @Name    MV_Scan_High
- * @declaration :让MV扫描阶梯平台的高层
- * @param   color: [输入/出] 要抓的球的颜色
- * @retval   :无
- * @author  peach99CPP
- ***********************************************************************/
-void MV_Scan_High(mvcolor_t color)
-{
-    MV_SendCmd(2, color);
-}
-
-/**********************************************************************
- * @Name    MV_Scan_Low
- * @declaration : 让MV扫描阶梯平台的中层及下层
- * @param   color: [输入/出]  要抓的球的颜色
- * @retval   :无
- * @author  peach99CPP
- ***********************************************************************/
-void MV_Scan_Low(mvcolor_t color)
-{
-    MV_SendCmd(1, color);
-}
-
-/**********************************************************************
- * @Name    MV_Scan_Bar
- * @declaration :让MV扫描条形平台
- * @param   color: [输入/出]  要抓的球的颜色
- * @retval   :
- * @author  peach99CPP
- ***********************************************************************/
-void MV_Scan_Bar(mvcolor_t color)
-{
-    MV_SendCmd(3, color);
 }
 
 /**********************************************************************

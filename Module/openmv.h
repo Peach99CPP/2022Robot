@@ -19,7 +19,7 @@
 
 #define START_BYTE 0XFF
 #define END_BYTE 0X99
-#define BUFFER_SIZE 7
+#define BUFFER_SIZE 5
 #define MAX_REC_SIZE 20
 
 typedef struct
@@ -55,7 +55,7 @@ typedef enum
     HighestRing
 } MvRing_t;
 
-void cmd_encode(const uint8_t event_id, int param);
+void cmd_encode(const uint8_t event_id, uint8_t param);
 void MV_SendCmd(const uint8_t event_id, const int param);
 void MV_IRQ(void);
 void MV_rec_decode(void);
@@ -67,17 +67,11 @@ void Enable_StopSignal(void);
 void OpenMV_ChangeRoi(int roi);
 
 void MV_Decode(void);
-void MV_SendOK(void);
-void MV_PID(void);
 
 void Set_MV_Mode(bool mode);
 bool Get_MV_Mode(void);
 int Get_DiscStatus(void);
 
-void MV_Scan_Bar(mvcolor_t color); //扫描条形平台
-//扫描阶梯平台
-void MV_Scan_Low(mvcolor_t color);
-void MV_Scan_High(mvcolor_t color);
 //开始与结束
 void MV_Start(void);
 void MV_Stop(void);

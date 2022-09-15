@@ -2,7 +2,7 @@
  * @Author: peach 1831427532@qq.com
  * @Date: 2022-09-05 14:16:44
  * @LastEditors: peach 1831427532@qq.com
- * @LastEditTime: 2022-09-14 23:11:35
+ * @LastEditTime: 2022-09-15 16:55:47
  * @FilePath: \MDK-ARMd:\robot\robot\Appliciation\general_interface.c
  * @Description:
  *
@@ -46,9 +46,10 @@ void Run4WholeGame(void)
     Move_CountBar(2, 2, 120);
     Wait_Switches(1);
     HWSwitch_Move(0, 1);
+    ActionGroup(0, 1);
     move_by_encoder(2, -65);
     Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
-    ActionGroup(0, 1);
+
     while (!Get_Servo_Flag())
         osDelay(10);
     osDelay(2000);
@@ -73,6 +74,6 @@ void Run4WholeGame(void)
     move_by_encoder(2, 680);
     Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
     Turn_angle(1, -90, 0);
-    move_by_encoder(2, 240);
+    move_by_encoder(2, 230);
     Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
 }
