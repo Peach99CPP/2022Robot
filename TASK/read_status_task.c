@@ -546,7 +546,6 @@ int Get_Height(void)
     return Current_Height;
 }
 
-
 /**
  * @name: Set_SwitchSpeed
  * @brief: 设置撞击挡板的速度
@@ -670,7 +669,7 @@ void HWSwitch_Move(int dir, int enable_imu)
             osDelay(10);
         }
     }
-    else if(dir==1)
+    else if (dir == 1)
     {
         while (Get_HW(dir) == off)
         {
@@ -683,8 +682,21 @@ void HWSwitch_Move(int dir, int enable_imu)
             osDelay(10);
         }
     }
+    else if (dir == 2)
+    {
+        while (Get_HW(dir) == off)
+        {
+            set_speed(0, MIN_ * Speed_Factor_HW, 0); //把速度增大 避免出现无法启动的现象
+            osDelay(5);
+        }
+        set_speed(VERTICAL, -MIN_ * Speed_Factor_HW, 0);
+        while (Get_HW(dir) == on)
+        {
+            osDelay(10);
+        }
+    }
     set_speed(0, 0, 0);
-    osDelay(100);
+    osDelay(150);
 }
 
 /**********************************************************************

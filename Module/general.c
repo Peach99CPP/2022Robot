@@ -1,9 +1,9 @@
 /*
  * @Author: rlantic
  * @Date: 2022-03-19 16:12:02
- * @LastEditors: OBKoro1
- * @LastEditTime: 2022-04-17 12:22:55
- * @FilePath: \MDK-ARMd:\program\motor\motor\Module\general.c
+ * @LastEditors: peach 1831427532@qq.com
+ * @LastEditTime: 2022-09-20 02:11:04
+ * @FilePath: \MDK-ARMd:\robot\robot\Module\general.c
  * @Description:
  *
  * Copyright (c) 2022 by �û�/��˾��, All Rights Reserved.
@@ -64,9 +64,9 @@ int Get_TargetColor(void)
 }
 /**********************************************************************
  * @Name    Openmv_Scan_Bar
- * @declaration :开启OPENMV扫描条形平台
- * @param   status: [输入/出]  开始还是结�?
- **			 color: [输入/出] 要抓的颜色，反馈给mv
+ * @declaration :开启OPENMV�?描条形平�?
+ * @param   status: [输入/出]  开始还�?结�??
+ **			 color: [输入/出] 要抓的�?�色，反馈给mv
  * @retval   : �?
  * @author  peach99CPP
  ***********************************************************************/
@@ -126,7 +126,7 @@ void Disc2Plat(void)
     move_by_encoder(2, 25);
     Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
     Wait_Switches(3);
-    HWSwitch_Move(6, 1);
+    // HWSwitch_Move(6, 1);
 }
 /**
  * @name: Disc2Ware2plat

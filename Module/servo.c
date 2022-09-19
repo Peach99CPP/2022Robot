@@ -162,7 +162,7 @@ void Error_Report(int type)
         printf("动作组编号超限制\r\n");
     else if (type == 3)
     {
-        printf("收到的动作组执行指令有误");
+        printf("收到的动作组执行指令有误\n");
     }
     else if (type == 4)
         printf("运行次数不能为无限\r\n");

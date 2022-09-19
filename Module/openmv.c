@@ -28,7 +28,7 @@ void MV_QueryTask_Start(void)
     if (MV_QueryTask_Exit)
     {
         MV_QueryTask_Exit = false;
-        MV_Query_Stae = false;
+        MV_Query_Stae = true;
         osThreadDef(MV_QuertThreadHandle, MV_QueryTaskFunc, osPriorityHigh, 0, 256);
         MV_QuertThreadHandle = osThreadCreate(osThread(MV_QuertThreadHandle), NULL);
     }
@@ -44,18 +44,19 @@ void MV_QueryTaskFunc(void const *argument)
         //设置开始定时发送
         if (MV_Query_Stae)
         {
-            MV_SendCmd(9, 0);//向openmv发送查询指令
-            osDelay(100);//10HZ
+            MV_SendCmd(9, 0); //向openmv发送查询指令
+            osDelay(100);     // 10HZ
         }
         else
         {
-            osDelay(10);//高频率刷新
+            osDelay(10); //高频率刷新
         }
     }
     vTaskDelete(NULL);
 }
 void Set_QueryState(int state)
 {
+    MV_Query_Stae = state;
     if (state == 1)
     {
         if (MV_QueryTask_Exit)
@@ -63,7 +64,6 @@ void Set_QueryState(int state)
             MV_QueryTask_Start();
         }
     }
-    MV_Query_Stae = state;
 }
 
 void Update_rectangle_count(void)
@@ -220,14 +220,21 @@ void MV_Decode(void)
 #define YelDisc 41
 
 #define MV_Blob 0X02
+    if (Get_Servo_Flag()) //空闲，可以接收指令 此时openmv和舵控都准备好执行指令
+    {
+        if (mv_rec.event == MV_Blob)
+        {
+            ActionGroup(3, 1);
+            printf("拨球\n");
+        }
+    }
     if (Get_MV_Mode()) //只有此时mv是对信号响应，才进入下面的逻辑判断
     {
         if (Get_Servo_Flag()) //空闲，可以接收指令 此时openmv和舵控都准备好执行指令
         {
-            printf("1");
             if (mv_rec.event == MV_Blob)
             {
-                ActionGroup(3, 1);
+                // ActionGroup(3, 1);
                 printf("拨球\n");
             }
 #if use_old
