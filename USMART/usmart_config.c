@@ -23,7 +23,7 @@
 #define DEBUG_IMU 1     //����������
 #define DEBUG_CHASSIS 0 //�����˶�
 #define DEBUG_SWITCH 0  //�ᴥ���ء����⿪��
-#define DEBUG_OPENMV 0  // openmvͨѶ
+#define DEBUG_OPENMV 1  // openmvͨѶ
 #define Debug_Servo 0   //���ͨ�?
 extern void Global_Debug(void);
 /******����ʾ�����ø�������****/
@@ -64,8 +64,8 @@ struct _m_usmart_nametab usmart_nametab[] =
 /**�����ǲ���**/
 #endif
 #if DEBUG_OPENMV == 1
-        (void *)Openmv_Scan_Bar,
-        "void Openmv_Scan_Bar(int status,int color)",
+        (void*)Set_QueryState,
+        "void Set_QueryState(bool state)",
 
 #endif
 #if DEBUG_CHASSIS == 1

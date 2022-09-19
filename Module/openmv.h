@@ -20,7 +20,7 @@
 #define START_BYTE 0XFF
 #define END_BYTE 0X99
 #define BUFFER_SIZE 5
-#define MAX_REC_SIZE 20
+#define MAX_REC_SIZE 6
 
 typedef struct
 {
@@ -79,5 +79,8 @@ void MV_Stop(void);
 void Set_AcIDofBar(short change); //增改
 int Get_RecCount(void);           //用于判断此时抓取的序号
 void Update_rectangle_count(void);
-
+//查询任务
+void MV_QueryTaskFunc(void const *argument);
+void MV_QueryTask_Start(void);
+void Set_QueryState(bool state);
 #endif

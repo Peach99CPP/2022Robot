@@ -14,6 +14,47 @@ int temp_ = 0;          //动作组计数器
 short mv_stop_flag = 0; //判断MV舵控的工作状态
 int Disc_Count = 0;
 int rectangle_count = 0;
+
+osThreadId MV_QuertThreadHandle;
+bool MV_QueryTask_Exit = true;
+bool MV_Query_Stae = false;
+uint8_t Rest_QueryTimes = 0;
+
+void MV_QueryTask_Start(void)
+{
+    if (MV_QueryTask_Exit)
+    {
+        MV_QueryTask_Exit = false;
+        MV_Query_Stae = false;
+        osThreadDef(MV_QuertThreadHandle, MV_QueryTaskFunc, osPriorityHigh, 0, 256);
+        MV_QuertThreadHandle = osThreadCreate(osThread(MV_QuertThreadHandle), NULL);
+    }
+}
+void MV_QueryTaskFunc(void const *argument)
+{
+    while (1)
+    {
+        //设置开始定时发送
+        if (MV_Query_Stae)
+        {
+            MV_SendCmd(9, 0);
+            osDelay(100);
+        }
+        else 
+        {
+            osDelay(10);
+        }
+    }
+}
+void Set_QueryState(bool state)
+{
+    if(MV_QueryTask_Exit)
+    {
+        MV_QueryTask_Start();
+    }
+    MV_Query_Stae = state;
+}
+
 void Update_rectangle_count(void)
 {
     rectangle_count += 1;
@@ -173,9 +214,9 @@ void MV_Decode(void)
         if (Get_Servo_Flag()) //空闲，可以接收指令 此时openmv和舵控都准备好执行指令
         {
             printf("1");
-            if(mv_rec.event == MV_Blob)
+            if (mv_rec.event == MV_Blob)
             {
-                ActionGroup(3,1);
+                ActionGroup(3, 1);
                 printf("拨球\n");
             }
 #if use_old
@@ -354,7 +395,7 @@ void Disable_StopSignal(void)
 void MV_Start(void)
 {
     Set_MV_Mode(true);
-    MV_SendCmd(0, 0);
+    MV_SendCmd(1, 0);
 }
 
 /**********************************************************************
@@ -367,7 +408,7 @@ void MV_Start(void)
 void MV_Stop(void)
 {
     Set_MV_Mode(false);
-    MV_SendCmd(4, 0);
+    MV_SendCmd(0, 0);
 }
 void OpenMV_ChangeRoi(int roi)
 {
