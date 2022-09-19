@@ -3,7 +3,7 @@
 <title>Static Call Graph - [motor\motor.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image motor\motor.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon Sep 19 18:02:28 2022
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060960: Last Updated: Mon Sep 19 18:14:24 2022
 <BR><P>
 <H3>Maximum Stack Usage =        380 bytes + Unknown(Functions without stacksize, Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -183,8 +183,8 @@ Function Pointers
 Global Symbols
 </H3>
 <P><STRONG><a name="[9d]"></a>__main</STRONG> (Thumb, 8 bytes, Stack size 0 bytes, __main.o(!!!main))
-<BR><BR>[Calls]<UL><LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
-<LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry
+<BR><BR>[Calls]<UL><LI><a href="#[9f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__rt_entry
+<LI><a href="#[9e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload
 </UL>
 
 <P><STRONG><a name="[9e]"></a>__scatterload</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __scatter.o(!!!scatter))
@@ -333,8 +333,8 @@ Global Symbols
 <P><STRONG><a name="[226]"></a>__rt_lib_shutdown_user_alloc_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, libshutdown2.o(.ARM.Collect$$libshutdown$$0000000E))
 
 <P><STRONG><a name="[9f]"></a>__rt_entry</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry.o(.ARM.Collect$$rtentry$$00000000))
-<BR><BR>[Called By]<UL><LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_rt2
-<LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+<BR><BR>[Called By]<UL><LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__main
+<LI><a href="#[a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__scatterload_rt2
 </UL>
 
 <P><STRONG><a name="[227]"></a>__rt_entry_presh_1</STRONG> (Thumb, 0 bytes, Stack size unknown bytes, __rtentry2.o(.ARM.Collect$$rtentry$$00000002))
@@ -682,14 +682,14 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[bf]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_printf_char_file
 </UL>
-<BR>[Called By]<UL><LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Turn_angle
-<LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Report
+<BR>[Called By]<UL><LI><a href="#[e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Report
 <LI><a href="#[15c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MV_Decode
 <LI><a href="#[183]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ServoInfBack_IRQ
 <LI><a href="#[180]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;QR_receive
 <LI><a href="#[1a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_synthetic_control
 <LI><a href="#[179]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;QR_decode
 <LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wait_Switches
+<LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Turn_angle
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LineTask
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BooTask
 <LI><a href="#[1e2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usmart_sys_cmd_exe
@@ -1675,8 +1675,8 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[14f]"></a>HAL_UART_ErrorCallback</STRONG> (Thumb, 2 bytes, Stack size 0 bytes, stm32f7xx_hal_uart.o(i.HAL_UART_ErrorCallback))
-<BR><BR>[Called By]<UL><LI><a href="#[14c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
-<LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_DMAAbortOnError
+<BR><BR>[Called By]<UL><LI><a href="#[90]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_DMAAbortOnError
+<LI><a href="#[14c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_IRQHandler
 </UL>
 
 <P><STRONG><a name="[14c]"></a>HAL_UART_IRQHandler</STRONG> (Thumb, 666 bytes, Stack size 32 bytes, stm32f7xx_hal_uart.o(i.HAL_UART_IRQHandler))
@@ -1781,10 +1781,10 @@ Global Symbols
 <LI>Call Chain = LineTask &rArr; Turn_angle &rArr; __2printf &rArr; _printf_char_file &rArr; _printf_char_common &rArr; __printf
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
-<LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Turn_angle
-<LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Comfirm_Online
 <LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_speed
 <LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelete
+<LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Turn_angle
+<LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Comfirm_Online
 <LI><a href="#[be]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> chassis_control.o(.constdata)
@@ -1810,10 +1810,11 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[5e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART4_IRQHandler
 </UL>
 
-<P><STRONG><a name="[99]"></a>MV_QueryTaskFunc</STRONG> (Thumb, 32 bytes, Stack size 0 bytes, openmv.o(i.MV_QueryTaskFunc))
-<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = MV_QueryTaskFunc &rArr; MV_SendCmd &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
+<P><STRONG><a name="[99]"></a>MV_QueryTaskFunc</STRONG> (Thumb, 50 bytes, Stack size 8 bytes, openmv.o(i.MV_QueryTaskFunc))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = MV_QueryTaskFunc &rArr; vTaskDelete &rArr; prvDeleteTCB &rArr; vPortFree &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
+<LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelete
 <LI><a href="#[13]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MV_SendCmd
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> openmv.o(.constdata)
@@ -2092,14 +2093,14 @@ Global Symbols
 <LI>Call Chain = Run4WholeGame &rArr; move_by_encoder &rArr; osThreadCreate &rArr; xTaskCreate &rArr; pvPortMalloc &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[ea]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;osDelay
-<LI><a href="#[181]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wait_OKInf
-<LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Turn_angle
-<LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HWSwitch_Move
 <LI><a href="#[182]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wait_Servo_Signal
 <LI><a href="#[15e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Servo_Flag
 <LI><a href="#[19]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ActionGroup
 <LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_by_encoder
 <LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wait_Switches
+<LI><a href="#[181]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wait_OKInf
+<LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Turn_angle
+<LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HWSwitch_Move
 <LI><a href="#[1a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Move_CountBar
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> usmart_config.o(.data)
@@ -2146,9 +2147,9 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[16]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_imu_status
 </UL>
-<BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HWSwitch_Move
+<BR>[Called By]<UL><LI><a href="#[17]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Set_InitYaw
+<LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HWSwitch_Move
 <LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Comfirm_Online
-<LI><a href="#[17]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Set_InitYaw
 </UL>
 
 <P><STRONG><a name="[17]"></a>Set_InitYaw</STRONG> (Thumb, 208 bytes, Stack size 40 bytes, atk_imu.o(i.Set_InitYaw))
@@ -2174,7 +2175,7 @@ Global Symbols
 <LI><a href="#[179]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;QR_decode
 </UL>
 
-<P><STRONG><a name="[e]"></a>Set_QueryState</STRONG> (Thumb, 20 bytes, Stack size 8 bytes, openmv.o(i.Set_QueryState))
+<P><STRONG><a name="[e]"></a>Set_QueryState</STRONG> (Thumb, 32 bytes, Stack size 8 bytes, openmv.o(i.Set_QueryState))
 <BR><BR>[Stack]<UL><LI>Max Depth = 208<LI>Call Chain = Set_QueryState &rArr; MV_QueryTask_Start &rArr; osThreadCreate &rArr; xTaskCreate &rArr; pvPortMalloc &rArr; xTaskResumeAll &rArr; xTaskIncrementTick
 </UL>
 <BR>[Calls]<UL><LI><a href="#[161]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MV_QueryTask_Start
@@ -2511,10 +2512,10 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[108]"></a>angle_limit</STRONG> (Thumb, 94 bytes, Stack size 0 bytes, atk_imu.o(i.angle_limit))
-<BR><BR>[Called By]<UL><LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Turn_angle
-<LI><a href="#[17]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Set_InitYaw
+<BR><BR>[Called By]<UL><LI><a href="#[17]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Set_InitYaw
 <LI><a href="#[4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Yaw
 <LI><a href="#[1a3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;imu_correct_val
+<LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Turn_angle
 </UL>
 
 <P><STRONG><a name="[15b]"></a>atkpParsing</STRONG> (Thumb, 692 bytes, Stack size 0 bytes, atk_imu.o(i.atkpParsing))
@@ -2733,16 +2734,16 @@ Global Symbols
 <BR>[Calls]<UL><LI><a href="#[1b2]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelay
 </UL>
 <BR>[Called By]<UL><LI><a href="#[93]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;StartDefaultTask
-<LI><a href="#[181]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wait_OKInf
-<LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Turn_angle
-<LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HWSwitch_Move
-<LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Comfirm_Online
 <LI><a href="#[182]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wait_Servo_Signal
 <LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MV_QueryTaskFunc
 <LI><a href="#[17]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Set_InitYaw
 <LI><a href="#[188]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_debug
 <LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_by_encoder
 <LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wait_Switches
+<LI><a href="#[181]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wait_OKInf
+<LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Turn_angle
+<LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HWSwitch_Move
+<LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Comfirm_Online
 <LI><a href="#[96]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;track_scan
 <LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_task
 <LI><a href="#[97]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;usmartscan
@@ -2896,13 +2897,13 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[107]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__aeabi_i2d
 </UL>
-<BR>[Called By]<UL><LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Turn_angle
-<LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HWSwitch_Move
-<LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Comfirm_Online
-<LI><a href="#[182]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wait_Servo_Signal
+<BR>[Called By]<UL><LI><a href="#[182]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wait_Servo_Signal
 <LI><a href="#[188]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;motor_debug
 <LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_by_encoder
 <LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wait_Switches
+<LI><a href="#[18]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Turn_angle
+<LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HWSwitch_Move
+<LI><a href="#[f7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Comfirm_Online
 <LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LineTask
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EncoderTask
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BooTask
@@ -3126,8 +3127,8 @@ Global Symbols
 <LI><a href="#[1ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvUnlockQueue
 <LI><a href="#[1cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvIsQueueFull
 <LI><a href="#[1d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskResumeAll
-<LI><a href="#[1af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
 <LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelete
+<LI><a href="#[1af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
 <LI><a href="#[1c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvCheckTasksWaitingTermination
 <LI><a href="#[1bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddNewTaskToReadyList
 </UL>
@@ -3138,8 +3139,8 @@ Global Symbols
 <LI><a href="#[1ce]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvUnlockQueue
 <LI><a href="#[1cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvIsQueueFull
 <LI><a href="#[1d5]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xTaskResumeAll
-<LI><a href="#[1af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
 <LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;vTaskDelete
+<LI><a href="#[1af]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;xQueueGenericSend
 <LI><a href="#[1c0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvCheckTasksWaitingTermination
 <LI><a href="#[1bc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvAddNewTaskToReadyList
 </UL>
@@ -3188,7 +3189,8 @@ Global Symbols
 <LI><a href="#[1e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvResetNextTaskUnblockTime
 <LI><a href="#[1c1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;prvDeleteTCB
 </UL>
-<BR>[Called By]<UL><LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LineTask
+<BR>[Called By]<UL><LI><a href="#[99]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MV_QueryTaskFunc
+<LI><a href="#[9a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;LineTask
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EncoderTask
 <LI><a href="#[9c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;BooTask
 </UL>
@@ -3486,11 +3488,11 @@ Global Symbols
 <P><STRONG><a name="[105]"></a>__aeabi_d2iz</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, dfix.o(x$fpl$dfix))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __aeabi_d2iz
 </UL>
-<BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HWSwitch_Move
-<LI><a href="#[1a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_encoder
+<BR>[Called By]<UL><LI><a href="#[1a7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;read_encoder
 <LI><a href="#[1a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_synthetic_control
 <LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_by_encoder
 <LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wait_Switches
+<LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HWSwitch_Move
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EncoderTask
 </UL>
 
@@ -3509,13 +3511,13 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[107]"></a>__aeabi_i2d</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, dflt_clz.o(x$fpl$dflt))
-<BR><BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HWSwitch_Move
-<LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_speed
+<BR><BR>[Called By]<UL><LI><a href="#[f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_speed
 <LI><a href="#[9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_motor_pid1
 <LI><a href="#[7]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_motor_pid
 <LI><a href="#[1a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_synthetic_control
 <LI><a href="#[10]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;move_by_encoder
 <LI><a href="#[14]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Wait_Switches
+<LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HWSwitch_Move
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EncoderTask
 <LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IC_CaptureCallback
 <LI><a href="#[d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;set_imu_param
@@ -3553,8 +3555,8 @@ Global Symbols
 <P><STRONG><a name="[fe]"></a>__aeabi_dmul</STRONG> (Thumb, 0 bytes, Stack size 32 bytes, dmul.o(x$fpl$dmul))
 <BR><BR>[Stack]<UL><LI>Max Depth = 32<LI>Call Chain = __aeabi_dmul
 </UL>
-<BR>[Called By]<UL><LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HWSwitch_Move
-<LI><a href="#[1a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_synthetic_control
+<BR>[Called By]<UL><LI><a href="#[1a1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;chassis_synthetic_control
+<LI><a href="#[15]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HWSwitch_Move
 <LI><a href="#[9b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;EncoderTask
 <LI><a href="#[128]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_TIM_IC_CaptureCallback
 <LI><a href="#[1a0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;distance_convert

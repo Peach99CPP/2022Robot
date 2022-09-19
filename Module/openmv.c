@@ -19,7 +19,10 @@ osThreadId MV_QuertThreadHandle;
 bool MV_QueryTask_Exit = true;
 bool MV_Query_Stae = false;
 uint8_t Rest_QueryTimes = 0;
-
+/**
+ * @description:  开启MV的任务
+ * @return {*}
+ */
 void MV_QueryTask_Start(void)
 {
     if (MV_QueryTask_Exit)
@@ -30,27 +33,35 @@ void MV_QueryTask_Start(void)
         MV_QuertThreadHandle = osThreadCreate(osThread(MV_QuertThreadHandle), NULL);
     }
 }
+void Exit_MV_QueryTask(void)
+{
+    MV_QueryTask_Exit = true;
+}
 void MV_QueryTaskFunc(void const *argument)
 {
-    while (1)
+    while (!MV_QueryTask_Exit)
     {
         //设置开始定时发送
         if (MV_Query_Stae)
         {
-            MV_SendCmd(9, 0);
-            osDelay(100);
+            MV_SendCmd(9, 0);//向openmv发送查询指令
+            osDelay(100);//10HZ
         }
-        else 
+        else
         {
-            osDelay(10);
+            osDelay(10);//高频率刷新
         }
     }
+    vTaskDelete(NULL);
 }
-void Set_QueryState(bool state)
+void Set_QueryState(int state)
 {
-    if(MV_QueryTask_Exit)
+    if (state == 1)
     {
-        MV_QueryTask_Start();
+        if (MV_QueryTask_Exit)
+        {
+            MV_QueryTask_Start();
+        }
     }
     MV_Query_Stae = state;
 }

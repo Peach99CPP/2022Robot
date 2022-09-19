@@ -82,5 +82,5 @@ void Update_rectangle_count(void);
 //²éÑ¯ÈÎÎñ
 void MV_QueryTaskFunc(void const *argument);
 void MV_QueryTask_Start(void);
-void Set_QueryState(bool state);
+void Set_QueryState(int state);
 #endif

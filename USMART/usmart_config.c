@@ -65,7 +65,7 @@ struct _m_usmart_nametab usmart_nametab[] =
 #endif
 #if DEBUG_OPENMV == 1
         (void*)Set_QueryState,
-        "void Set_QueryState(bool state)",
+        "void Set_QueryState(int state)",
 
 #endif
 #if DEBUG_CHASSIS == 1
