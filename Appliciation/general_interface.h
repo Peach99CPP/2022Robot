@@ -1,3 +1,13 @@
+/*** 
+ * @Author: peach 1831427532@qq.com
+ * @Date: 2022-09-05 14:14:24
+ * @LastEditors: peach 1831427532@qq.com
+ * @LastEditTime: 2022-09-20 11:20:00
+ * @FilePath: \MDK-ARMd:\robot\robot\Appliciation\general_interface.h
+ * @Description: 
+ * @
+ * @Copyright (c) 2022 by peach 1831427532@qq.com, All Rights Reserved. 
+ */
 /***
  * @Author: peach 1831427532@qq.com
  * @Date: 2022-09-05 14:14:24
@@ -25,6 +35,6 @@
 #include "servo.h"
 
 void Move_CountBar(int id, int num, int speed);
-void Run4WholeGame(void);
-
+void Run4WholeGame(int stage);
+void RedGame2Test(int stage);
 #endif
