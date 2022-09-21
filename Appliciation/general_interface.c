@@ -2,7 +2,7 @@
  * @Author: peach 1831427532@qq.com
  * @Date: 2022-09-05 14:16:44
  * @LastEditors: peach 1831427532@qq.com
- * @LastEditTime: 2022-09-21 19:45:22
+ * @LastEditTime: 2022-09-21 23:12:07
  * @FilePath: \MDK-ARMd:\robot\robot\Appliciation\general_interface.c
  * @Description:
  *
@@ -90,7 +90,7 @@ void Run4WholeGame(int stage)
         HWSwitch_Move(1, 1);
         ActionGroup(4, 1);
         Wait_Servo_Signal(Wait_Dealy_MAX);
-        osDelay(5000);
+        osDelay(2500);
         ActionGroup(7, 1);
         Wait_Servo_Signal(Wait_Dealy_MAX);
         ActionGroup(5, 1);
@@ -114,31 +114,40 @@ void RedGame2Test(int stage)
         Move_CountBar(0, 2, -120);
         Wait_Switches(1);
         HWSwitch_Move(2, 1); // TODO 注意此处的dir参数是2 和蓝场时区分开的
-        ActionGroup(0, 1);
+
         move_by_encoder(2, 65); // TODO 注意此处的encoder——val参数值 要让车子往y正 和蓝场时区分开的
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
-
-        while (!Get_Servo_Flag())
-            osDelay(10);
-        osDelay(2000);
+        Wait_Switches(1); // TODO 重新碰撞
     }
     else if (stage == 2)
     {
+        set_imu_status(0);
+        set_speed(40, 0, 0);
+        ActionGroup(0, 1);
+        Wait_Servo_Signal(Wait_Dealy_MAX);
+
         MV_SendCmd(1, 0); //使能mv
         osDelay(50);
         MV_SendCmd(2, 1); //设置黄色球为目标球
         osDelay(50);
         Set_QueryState(1);
+        printf("进入黄球等待时间\n");
         osDelay(20 * 1000);
         Set_QueryState(0);
         osDelay(100);
-        MV_SendCmd(2, 1); //蓝色
+        MV_SendCmd(2, 0); //红色
         osDelay(50);
+        ActionGroup(2, 1);
+        Wait_Servo_Signal(Wait_Dealy_MAX);
         Set_QueryState(1);
+        printf("进入目标球等待时间\n");
         osDelay(20 * 1000);
         Set_QueryState(0);
         osDelay(100);
         MV_SendCmd(0, 0);
+        Set_InitYaw(0);
+        printf("结束本次拨球\n");
+        set_speed(0, 0, 0);
     }
     else if (stage == 3)
     {
@@ -155,19 +164,22 @@ void RedGame2Test(int stage)
         while (!Get_Servo_Flag())
             osDelay(10);
         HWSwitch_Move(1, 1);
+        Wait_Switches(3);
+        set_imu_status(0);
+        set_speed(-40, 0, 0);
         ActionGroup(4, 1);
         Wait_Servo_Signal(Wait_Dealy_MAX);
+        osDelay(2500);
         ActionGroup(7, 1);
         Wait_Servo_Signal(Wait_Dealy_MAX);
         ActionGroup(5, 1);
+        set_speed(0, 0, 0);
+        Set_InitYaw(0);
     }
     else if (stage == 4)
     {
         ActionGroup(8, 1);
         Wait_Servo_Signal(Wait_Dealy_MAX);
-
-        move_by_encoder(1, 230);
-        Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
         move_by_encoder(2, -680);
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
         Turn_angle(1, -90, 0);

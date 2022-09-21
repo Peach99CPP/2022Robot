@@ -50,7 +50,7 @@ bool QR_Brick = true; //是否位于三种高度 模式
 short swicth_status[8]; //开关状态，只在内部进行赋值
 short HW_Switch[10];    //红外开关的状态
 int MIN_ = 50;
-int VERTICAL = 20;
+int VERTICAL = 40;
 int MIN_SPEED = 80; //速度继续增大 防止在侧向移动时动力不足 撞击挡板使用
 
 bool update_finish = true;

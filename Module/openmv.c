@@ -225,7 +225,7 @@ void MV_Decode(void)
         if (mv_rec.event == MV_Blob)
         {
             ActionGroup(3, 1);
-            printf("拨球\n");
+            // printf("拨球\n");
         }
     }
     if (Get_MV_Mode()) //只有此时mv是对信号响应，才进入下面的逻辑判断
