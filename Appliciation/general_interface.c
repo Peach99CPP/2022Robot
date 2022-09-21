@@ -2,7 +2,7 @@
  * @Author: peach 1831427532@qq.com
  * @Date: 2022-09-05 14:16:44
  * @LastEditors: peach 1831427532@qq.com
- * @LastEditTime: 2022-09-21 23:12:07
+ * @LastEditTime: 2022-09-22 02:25:08
  * @FilePath: \MDK-ARMd:\robot\robot\Appliciation\general_interface.c
  * @Description:
  *
@@ -14,6 +14,7 @@
 #define Wait_Dealy_MAX 30000
 #define Line_Type 1
 #define Encoder_Type 2
+#define YuanPanDelay  16*1000
 /**
  * @description: 通过调用红外俩计算板子数量
  * @param {int} id使用哪个红外
@@ -48,7 +49,6 @@ void Run4WholeGame(int stage)
         Move_CountBar(2, 2, 120);
         Wait_Switches(1);
         HWSwitch_Move(0, 1);
-        ActionGroup(0, 1);
         move_by_encoder(2, -65); // TODO 此参数需要调试
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
         Wait_Switches(1);
@@ -57,18 +57,19 @@ void Run4WholeGame(int stage)
     }
     else if (stage == 2)
     {
+                ActionGroup(0, 1);
         MV_SendCmd(1, 0); //使能mv
         osDelay(50);
         MV_SendCmd(2, 1); //设置黄色球为目标球
         osDelay(50);
         Set_QueryState(1);
-        osDelay(20 * 1000);
+        osDelay(YuanPanDelay);
         Set_QueryState(0);
         osDelay(100);
         MV_SendCmd(2, 2); //蓝色
         osDelay(50);
         Set_QueryState(1);
-        osDelay(20 * 1000);
+        osDelay(YuanPanDelay);
         Set_QueryState(0);
         osDelay(100);
         MV_SendCmd(0, 0);
@@ -132,7 +133,7 @@ void RedGame2Test(int stage)
         osDelay(50);
         Set_QueryState(1);
         printf("进入黄球等待时间\n");
-        osDelay(20 * 1000);
+        osDelay(YuanPanDelay);
         Set_QueryState(0);
         osDelay(100);
         MV_SendCmd(2, 0); //红色
@@ -141,7 +142,7 @@ void RedGame2Test(int stage)
         Wait_Servo_Signal(Wait_Dealy_MAX);
         Set_QueryState(1);
         printf("进入目标球等待时间\n");
-        osDelay(20 * 1000);
+        osDelay(YuanPanDelay);
         Set_QueryState(0);
         osDelay(100);
         MV_SendCmd(0, 0);
