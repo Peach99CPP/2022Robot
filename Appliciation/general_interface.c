@@ -2,7 +2,7 @@
  * @Author: peach 1831427532@qq.com
  * @Date: 2022-09-05 14:16:44
  * @LastEditors: peach 1831427532@qq.com
- * @LastEditTime: 2022-09-22 02:25:08
+ * @LastEditTime: 2022-09-22 02:39:17
  * @FilePath: \MDK-ARMd:\robot\robot\Appliciation\general_interface.c
  * @Description:
  *
@@ -14,7 +14,7 @@
 #define Wait_Dealy_MAX 30000
 #define Line_Type 1
 #define Encoder_Type 2
-#define YuanPanDelay  16*1000
+#define YuanPanDelay 16 * 1000
 /**
  * @description: 通过调用红外俩计算板子数量
  * @param {int} id使用哪个红外
@@ -40,6 +40,7 @@ void Move_CountBar(int id, int num, int speed)
     set_speed(0, 0, 0);
     osDelay(100);
 }
+//蓝半场程序
 void Run4WholeGame(int stage)
 {
     if (stage == 1)
@@ -49,30 +50,36 @@ void Run4WholeGame(int stage)
         Move_CountBar(2, 2, 120);
         Wait_Switches(1);
         HWSwitch_Move(0, 1);
-        move_by_encoder(2, -65); // TODO 此参数需要调试
+        move_by_encoder(2, -60); // TODO 9_22 2.27调试为60
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
-        Wait_Switches(1);
-        while (!Get_Servo_Flag())
-            osDelay(10);
     }
     else if (stage == 2)
     {
-                ActionGroup(0, 1);
+        set_imu_status(0);
+        set_speed(40,0,0);
+        ActionGroup(0, 1);
+        Wait_Servo_Signal(Wait_Dealy_MAX);
+        
         MV_SendCmd(1, 0); //使能mv
         osDelay(50);
         MV_SendCmd(2, 1); //设置黄色球为目标球
         osDelay(50);
         Set_QueryState(1);
-        osDelay(YuanPanDelay);
+        printf("进入黄色球等待时间\n");
+        osDelay(YuanPanDelay);//设置等待时间
         Set_QueryState(0);
         osDelay(100);
         MV_SendCmd(2, 2); //蓝色
         osDelay(50);
         Set_QueryState(1);
+        printf("进入目标球等待时间\n");
         osDelay(YuanPanDelay);
         Set_QueryState(0);
         osDelay(100);
         MV_SendCmd(0, 0);
+        Set_InitYaw(0);
+        set_speed(0,0,0);
+        printf("本次拨球结束\n");
     }
     else if (stage == 3)
     {
@@ -89,12 +96,16 @@ void Run4WholeGame(int stage)
         while (!Get_Servo_Flag())
             osDelay(10);
         HWSwitch_Move(1, 1);
+        set_imu_status(0);
+        set_speed(-40,0,0);
         ActionGroup(4, 1);
         Wait_Servo_Signal(Wait_Dealy_MAX);
         osDelay(2500);
         ActionGroup(7, 1);
         Wait_Servo_Signal(Wait_Dealy_MAX);
         ActionGroup(5, 1);
+        set_speed(0,0,0);
+        Set_InitYaw(0);
     }
     else if (stage == 4)
     {
@@ -116,7 +127,7 @@ void RedGame2Test(int stage)
         Wait_Switches(1);
         HWSwitch_Move(2, 1); // TODO 注意此处的dir参数是2 和蓝场时区分开的
 
-        move_by_encoder(2, 65); // TODO 注意此处的encoder——val参数值 要让车子往y正 和蓝场时区分开的
+        move_by_encoder(2, 60); // TODO 注意此处的encoder——val参数值 要让车子往y正 和蓝场时区分开的
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
         Wait_Switches(1); // TODO 重新碰撞
     }
