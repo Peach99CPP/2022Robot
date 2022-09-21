@@ -11,7 +11,7 @@
 #include "atk_imu.h"
 #include "chassis_control.h"
 
-double x_error = 0, y_error = 0, w_error = 0,final_W_error = 0;
+double x_error = 0, y_error = 0, w_error = 0, final_W_error = 0;
 float bar_factor = 1 / 10;
 int i;
 double speed_factor = 0, min_val;
@@ -148,10 +148,10 @@ void chassis_synthetic_control(void)
     {
         final_W_error = fn * MaxVal;
     }
-		else
-		{
-			final_W_error = w_error;
-		}
+    else
+    {
+        final_W_error = w_error;
+    }
     y_error = x_error = 0;
     x = chassis.x_speed + y_error;
     y = chassis.y_speed - x_error;

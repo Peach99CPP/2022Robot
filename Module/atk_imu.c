@@ -378,7 +378,7 @@ ATK_IMU_t imu =
 };
 
 #define ERROR_THRESHILD 0.05
-#define INIT_TIMES 100
+#define INIT_TIMES 150 //TODO 增大稳定程度
 
 #define BUFFER_SIZE 11
 

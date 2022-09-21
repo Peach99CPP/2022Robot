@@ -2,7 +2,7 @@
  * @Author: peach 1831427532@qq.com
  * @Date: 2022-09-05 14:16:44
  * @LastEditors: peach 1831427532@qq.com
- * @LastEditTime: 2022-09-20 11:30:55
+ * @LastEditTime: 2022-09-20 17:17:28
  * @FilePath: \MDK-ARMd:\robot\robot\Appliciation\general_interface.c
  * @Description:
  *
@@ -49,9 +49,9 @@ void Run4WholeGame(int stage)
         Wait_Switches(1);
         HWSwitch_Move(0, 1);
         ActionGroup(0, 1);
-        move_by_encoder(2, -65);
+        move_by_encoder(2, -65);//TODO 此参数需要调试
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
-
+        Wait_Switches(1);
         while (!Get_Servo_Flag())
             osDelay(10);
         osDelay(2000);
@@ -73,6 +73,7 @@ void Run4WholeGame(int stage)
         HWSwitch_Move(1, 1);
         ActionGroup(4, 1);
         Wait_Servo_Signal(Wait_Dealy_MAX);
+        osDelay(5000);
         ActionGroup(7, 1);
         Wait_Servo_Signal(Wait_Dealy_MAX);
         ActionGroup(5, 1);
@@ -127,12 +128,10 @@ void RedGame2Test(int stage)
     }
     else if (stage == 3)
     {
-        move_by_encoder(1, 120);
+        move_by_encoder(1, 230);
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
         move_by_encoder(2, -680);
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
         Turn_angle(1, -90, 0);
-        move_by_encoder(2, 230);
-        Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
     }
 }

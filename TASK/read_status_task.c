@@ -602,7 +602,7 @@ void Wait_Switches(int dir)
         w1 = 3, w2 = 5;
         x_pn = -1, y_pn = 0;
     }
-    MIN_SPEED = 60;
+    MIN_SPEED = 60;//TODO 增大碰撞时候的力度 
 //开始靠近
 Closing:
 #define overtimeval 8000
@@ -631,7 +631,7 @@ Closing:
     osDelay(300);
     if (flag1 == off || flag2 == off)
     {
-        MIN_SPEED /= 2.0; //更低的速度
+        MIN_SPEED -= 5.0; //不使用除法了 尝试使用减法
         if (ABS(MIN_SPEED) < 5)
             goto switch_exit; //防止卡死在这里
         goto Closing;         //继续回到靠近的程序
