@@ -602,7 +602,6 @@ void go_warehouse(void) //这里�?走到仓库,用红外来定位到仓库中�
         }
         osDelay(5);
     }
-    set_speed(0, 0, 0); //��ʱ����ֿ���м�
 }
 osThreadId Go_Handle = NULL;
 void GoTask(void const *argument);

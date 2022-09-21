@@ -369,7 +369,7 @@ ATK_IMU_t imu =
     {
         /*移植时只需要修改以下结构体变量即可*/
 
-        .imu_uart = &huart2,        //串口号
+        .imu_uart = &huart3,        //串口号
         .yaw_ptr = &(attitude.yaw), //解析出来的原始数据的指针
         .target_angle = 0,          // pid的目标角度
         .init_angle = 0,            //初始化角度，补偿上电时的初始角度
@@ -418,7 +418,7 @@ void ATK_IMU_Init(void)
     __HAL_UART_ENABLE_IT(imu.imu_uart, UART_IT_RXNE); //开启DMA
     Set_InitYaw(0);                                   //获取初始化角度，用于补偿上电时的角度,并设置当前角度为0度
     Set_IMUFinishedInf(true);                         // 7用于反馈此时陀螺仪已经初始化完成 可以进行任务运行
-	HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12,GPIO_PIN_SET);
+	  HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12,GPIO_PIN_SET);
 }
 
 /**********************************************************************

@@ -23,7 +23,7 @@
 pid_data_t imu_data, anglekeep_data;
 pid_paramer_t imu_para =
     {
-        .kp = 10.0,
+        .kp = 9.0,
         .ki = 0,
         .kd = 0,
         .integrate_max = 70,
@@ -44,8 +44,7 @@ int if_completed;
 float imu_correct_val(void)
 {
   static float now_angle;
-  // static float i;
-  // static float raw_angle; //过程变量，为避免重复声明，使用静态变量
+   //static float raw_angle; //过程变量，为避免重复声明，使用静态变量
   //判断此时转弯的状态
 
   if (!imu.enable_switch)
@@ -56,7 +55,6 @@ float imu_correct_val(void)
     imu_data.expect = imu.target_angle; //设置好pid的目标
     now_angle = imu.get_angle();        //获取角度数值
     now_angle = angle_limit(now_angle);
-    // i=now_angle;
 
     //取最优路径
     if (now_angle - imu.target_angle > 180)
@@ -70,7 +68,7 @@ float imu_correct_val(void)
       if_completed = 0;
     //获取PID值
     delta = pos_pid_cal(&imu_data, &imu_para); // pid传参
-                                               // printf("%.2f,%.2f,%.2f,%.2f\r\n",now_angle  ,imu.target_angle   ,imu_data.err,i)
+    //printf("%.2f,%.2f,%.2f,%.2f\r\n",now_angle  ,imu.target_angle   ,imu_data.err,i);
     return delta;                              //返回计算值
   }
 }

@@ -143,7 +143,7 @@ void chassis_synthetic_control(void)
     {
         fn = 1;
     }
-    int MaxVal = 120 + 0.5 * (fabs(chassis.x_speed) + fabs(chassis.y_speed));
+    int MaxVal = 60 + 0.5 * (fabs(chassis.x_speed) + fabs(chassis.y_speed));
     if (fabs(w_error) > MaxVal)
     {
         final_W_error = fn * MaxVal;

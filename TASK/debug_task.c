@@ -31,6 +31,7 @@ int Os_RunningFlag = 0;
 uint8_t cmd[3] = {0xff, 0x00, 0x99};
 bool if_debug_finished = false;
 
+
 #define IF_Run 1
 void Startdebug(void const *argument)
 {
@@ -45,7 +46,7 @@ void Startdebug(void const *argument)
 		// go_warehouse();
 		 //go_line();
 		 
-    }
+    }//HAL_GPIO_WritePin(GPIOA,GPIO_PIN_12,GPIO_PIN_SET)
 
    
     
