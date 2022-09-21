@@ -2,7 +2,7 @@
  * @Author: peach 1831427532@qq.com
  * @Date: 2022-09-05 14:16:44
  * @LastEditors: peach 1831427532@qq.com
- * @LastEditTime: 2022-09-22 02:39:17
+ * @LastEditTime: 2022-09-22 02:53:17
  * @FilePath: \MDK-ARMd:\robot\robot\Appliciation\general_interface.c
  * @Description:
  *
@@ -71,6 +71,8 @@ void Run4WholeGame(int stage)
         osDelay(100);
         MV_SendCmd(2, 2); //蓝色
         osDelay(50);
+        ActionGroup(2,1);
+        Wait_Servo_Signal(Wait_Dealy_MAX);
         Set_QueryState(1);
         printf("进入目标球等待时间\n");
         osDelay(YuanPanDelay);
@@ -114,6 +116,9 @@ void Run4WholeGame(int stage)
         Turn_angle(1, -90, 0);
         move_by_encoder(2, 230);
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
+        set_imu_status(0);
+        set_speed(0,0,0);
+        ActionGroup(8,1);
     }
 }
 void RedGame2Test(int stage)
