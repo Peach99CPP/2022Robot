@@ -2,7 +2,7 @@
  * @Author: peach 1831427532@qq.com
  * @Date: 2022-09-05 14:14:24
  * @LastEditors: peach 1831427532@qq.com
- * @LastEditTime: 2022-09-20 11:20:00
+ * @LastEditTime: 2022-09-21 18:54:04
  * @FilePath: \MDK-ARMd:\robot\robot\Appliciation\general_interface.h
  * @Description: 
  * @
@@ -33,6 +33,7 @@
 #include "FreeRTOS.h"
 #include "task.h"
 #include "servo.h"
+#include "openmv.h"
 
 void Move_CountBar(int id, int num, int speed);
 void Run4WholeGame(int stage);

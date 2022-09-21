@@ -2,7 +2,7 @@
  * @Author: peach 1831427532@qq.com
  * @Date: 2022-09-05 14:16:44
  * @LastEditors: peach 1831427532@qq.com
- * @LastEditTime: 2022-09-21 18:30:45
+ * @LastEditTime: 2022-09-21 19:45:22
  * @FilePath: \MDK-ARMd:\robot\robot\Appliciation\general_interface.c
  * @Description:
  *
@@ -54,9 +54,26 @@ void Run4WholeGame(int stage)
         Wait_Switches(1);
         while (!Get_Servo_Flag())
             osDelay(10);
-        osDelay(2000);
     }
     else if (stage == 2)
+    {
+        MV_SendCmd(1, 0); //使能mv
+        osDelay(50);
+        MV_SendCmd(2, 1); //设置黄色球为目标球
+        osDelay(50);
+        Set_QueryState(1);
+        osDelay(20 * 1000);
+        Set_QueryState(0);
+        osDelay(100);
+        MV_SendCmd(2, 2); //蓝色
+        osDelay(50);
+        Set_QueryState(1);
+        osDelay(20 * 1000);
+        Set_QueryState(0);
+        osDelay(100);
+        MV_SendCmd(0, 0);
+    }
+    else if (stage == 3)
     {
         ActionGroup(1, 1);
         move_by_encoder(1, -80);
@@ -78,7 +95,7 @@ void Run4WholeGame(int stage)
         Wait_Servo_Signal(Wait_Dealy_MAX);
         ActionGroup(5, 1);
     }
-    else if (stage == 3)
+    else if (stage == 4)
     {
         move_by_encoder(2, 680);
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
@@ -107,6 +124,24 @@ void RedGame2Test(int stage)
     }
     else if (stage == 2)
     {
+        MV_SendCmd(1, 0); //使能mv
+        osDelay(50);
+        MV_SendCmd(2, 1); //设置黄色球为目标球
+        osDelay(50);
+        Set_QueryState(1);
+        osDelay(20 * 1000);
+        Set_QueryState(0);
+        osDelay(100);
+        MV_SendCmd(2, 1); //蓝色
+        osDelay(50);
+        Set_QueryState(1);
+        osDelay(20 * 1000);
+        Set_QueryState(0);
+        osDelay(100);
+        MV_SendCmd(0, 0);
+    }
+    else if (stage == 3)
+    {
         ActionGroup(1, 1);
         move_by_encoder(1, -80);
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
@@ -126,10 +161,11 @@ void RedGame2Test(int stage)
         Wait_Servo_Signal(Wait_Dealy_MAX);
         ActionGroup(5, 1);
     }
-    else if (stage == 3)
+    else if (stage == 4)
     {
         ActionGroup(8, 1);
         Wait_Servo_Signal(Wait_Dealy_MAX);
+
         move_by_encoder(1, 230);
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
         move_by_encoder(2, -680);
