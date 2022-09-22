@@ -2,7 +2,7 @@
  * @Author: peach 1831427532@qq.com
  * @Date: 2022-09-05 14:16:44
  * @LastEditors: peach 1831427532@qq.com
- * @LastEditTime: 2022-09-22 13:08:45
+ * @LastEditTime: 2022-09-22 16:19:28
  * @FilePath: \MDK-ARMd:\robot\robot\Appliciation\general_interface.c
  * @Description:
  *
@@ -36,7 +36,7 @@ void Move_CountBar(int id, int num, int speed)
     {
         osDelay(5);
     }
-    osDelay(200);
+    osDelay(100);
     set_speed(0, 0, 0);
     osDelay(100);
 }
@@ -199,7 +199,7 @@ void RedGame2Test(int stage)
     //在红场时需要注意 此时超声波是靠右的
     if (stage == 1)
     {
-        move_by_encoder(1, 160); //TODO 这里要和后面的stage5对应
+        move_by_encoder(1, 160); // TODO 这里要和后面的stage5对应
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
         Move_CountBar(0, 2, -120);
         Wait_Switches(1);
@@ -373,7 +373,8 @@ void Red_Run2Home(int val, int speed)
         osDelay(10);
     }
     move_by_encoder(2, val);
-    Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
+    osDelay(800);
     ActionGroup(7, 1);
+    Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
     osDelay(200);
 }
