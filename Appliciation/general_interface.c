@@ -2,7 +2,7 @@
  * @Author: peach 1831427532@qq.com
  * @Date: 2022-09-05 14:16:44
  * @LastEditors: peach 1831427532@qq.com
- * @LastEditTime: 2022-09-22 17:01:08
+ * @LastEditTime: 2022-09-22 23:50:03
  * @FilePath: \MDK-ARMd:\robot\robot\Appliciation\general_interface.c
  * @Description:
  *
@@ -14,7 +14,7 @@
 #define Wait_Dealy_MAX 30000
 #define Line_Type 1
 #define Encoder_Type 2
-#define YuanPanDelay 18 * 1000
+#define YuanPanDelay 22* 1000
 /**
  * @description: 通过调用红外俩计算板子数量
  * @param {int} id使用哪个红外
@@ -36,7 +36,7 @@ void Move_CountBar(int id, int num, int speed)
     {
         osDelay(5);
     }
-    osDelay(100);
+    osDelay(200);
     set_speed(0, 0, 0);
     osDelay(100);
 }
@@ -129,11 +129,12 @@ void Run4WholeGame(int stage)
         Move_CountBar(2, 2, 120);
         Wait_Switches(1);
         HWSwitch_Move(0, 1);
+        ActionGroup(0, 1);
         move_by_encoder(2, -60); // TODO 9_22 2.27调试为60
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
+        
         set_imu_status(0);
         set_speed(40, 0, 0);
-        ActionGroup(0, 1);
         Wait_Servo_Signal(Wait_Dealy_MAX);
 
         MV_SendCmd(1, 0); //使能mv
@@ -183,6 +184,7 @@ void Run4WholeGame(int stage)
         ActionGroup(5, 1);
         set_speed(0, 0, 0);
         Set_InitYaw(0);
+        
         move_by_encoder(2, 680);
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
         Turn_angle(1, -90, 0);
@@ -286,14 +288,14 @@ void RedGame2Test(int stage)
         Move_CountBar(0, 2, -120);
         Wait_Switches(1);
         HWSwitch_Move(2, 1); // TODO 注意此处的dir参数是2 和蓝场时区分开的
-
-        move_by_encoder(2, 60); // TODO 注意此处的encoder——val参数值 要让车子往y正 和蓝场时区分开的
+        ActionGroup(0, 1);
+        move_by_encoder(2, 55); // TODO 23.49 9——22 测试数据
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
         Wait_Switches(1); // TODO 重新碰撞
         // stage2
         set_imu_status(0);
         set_speed(40, 0, 0);
-        ActionGroup(0, 1);
+        
         Wait_Servo_Signal(Wait_Dealy_MAX);
 
         MV_SendCmd(1, 0); //使能mv

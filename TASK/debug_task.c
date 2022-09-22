@@ -39,13 +39,30 @@ void Startdebug(void const *argument)
 
     //   motor_debug();
     //红场是4号跟6号
+    printf("正在等待指定开关的触发\n");
+    while (1)
+    {
+        if(Get_SW(3) && Get_SW(5))
+        {
+            RedGame2Test(5);
+            break;
+        }
+        else if(Get_SW(2) && Get_SW(4))
+        {
+            Run4WholeGame(5);
+            break;
+        }
+        else
+        osDelay(10);
+    }
+#ifdef Run_Red
     while (!(Get_SW(3) && Get_SW(5)))
         osDelay(10);
-    printf("比赛开始\n");
-#ifdef Run_Red
     RedGame2Test(5);
 #endif
 #ifdef Run_Blue
+    while (!(Get_SW(2) && Get_SW(4)))
+        osDelay(10);
     Run4WholeGame(5);
 #endif
     osDelay(100);

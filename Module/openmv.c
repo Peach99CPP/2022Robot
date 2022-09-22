@@ -228,6 +228,8 @@ void MV_Decode(void)
             // printf("拨球\n");
         }
     }
+
+#if use_old
     if (Get_MV_Mode()) //只有此时mv是对信号响应，才进入下面的逻辑判断
     {
         if (Get_Servo_Flag()) //空闲，可以接收指令 此时openmv和舵控都准备好执行指令
@@ -237,7 +239,7 @@ void MV_Decode(void)
                 // ActionGroup(3, 1);
                 printf("拨球\n");
             }
-#if use_old
+
             static int mode;
             mode = Get_TargetColor(); // 1红2蓝
             if (mv_rec.event == Ball_Signal)
@@ -362,9 +364,9 @@ void MV_Decode(void)
             {
                 printf("收到回应指令 id: %d\tparam: %d\n", mv_rec.event, mv_rec.param); //针对回应指令做特殊处理
             }
-#endif
         }
     }
+#endif
 }
 
 /**********************************************************************

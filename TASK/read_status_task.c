@@ -585,6 +585,7 @@ void Wait_Switches(int dir)
         // todo 经测试 速度60满足要求
         w1 = 6, w2 = 0;
         x_pn = 1, y_pn = 0;
+        MIN_SPEED = 60;//TODO 增大碰撞时候的力度 
     }
     else if (dir == 2) //负x方向
     {
@@ -596,13 +597,14 @@ void Wait_Switches(int dir)
     {
         w1 = 1, w2 = 7;
         x_pn = -1, y_pn = 0;
+        MIN_SPEED = 80;
     }
     else if (dir == 4) //负Y方向
     {
         w1 = 3, w2 = 5;
         x_pn = -1, y_pn = 0;
     }
-    MIN_SPEED = 60;//TODO 增大碰撞时候的力度 
+    
 //开始靠近
 Closing:
 #define overtimeval 8000
