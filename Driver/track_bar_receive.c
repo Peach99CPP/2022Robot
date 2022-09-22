@@ -568,7 +568,11 @@ void all_data_clear(void) //数组清0
     memset(HW_data, 0, sizeof(HW_data));
     US_data = 0;
 }
-
+/**
+ * @description:  读取对应索引的开关
+ * @param {int} id 索引形式的开关id
+ * @return {*}
+ */
 int Get_SW(int id) //处理传过来的轻触开关数据
 {
     if (SW.data[id] == 1)

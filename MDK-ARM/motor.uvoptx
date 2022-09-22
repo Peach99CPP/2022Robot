@@ -205,6 +205,11 @@
           <WinNumber>1</WinNumber>
           <ItemText>mv_rec_flag</ItemText>
         </Ww>
+        <Ww>
+          <count>9</count>
+          <WinNumber>1</WinNumber>
+          <ItemText>Os_RunningFlag</ItemText>
+        </Ww>
       </WatchWindow1>
       <WatchWindow2>
         <Ww>

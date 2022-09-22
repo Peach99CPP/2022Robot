@@ -75,3 +75,6 @@ motor\debug_task.o: ../Module/servo.h
 motor\debug_task.o: ../Module/openmv.h
 motor\debug_task.o: ../Module/general.h
 motor\debug_task.o: ../Module/QR_code.h
+motor\debug_task.o: ../Appliciation/general_interface.h
+motor\debug_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
+motor\debug_task.o: ../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS/cmsis_os.h
