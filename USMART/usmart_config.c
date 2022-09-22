@@ -124,7 +124,9 @@ struct _m_usmart_nametab usmart_nametab[] =
         (void*)Run4WholeGame,
         "void Run4WholeGame(int stage)",
         (void*)RedGame2Test,
-        "void RedGame2Test(int stage)"
+        "void RedGame2Test(int stage)",
+        (void*)Red_Run2Home,
+        "void Red_Run2Home(int val,int speed)",
 };
 ///////////////////////////////////END///////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////

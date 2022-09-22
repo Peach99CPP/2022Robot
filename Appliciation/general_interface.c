@@ -2,7 +2,7 @@
  * @Author: peach 1831427532@qq.com
  * @Date: 2022-09-05 14:16:44
  * @LastEditors: peach 1831427532@qq.com
- * @LastEditTime: 2022-09-22 12:39:39
+ * @LastEditTime: 2022-09-22 13:08:45
  * @FilePath: \MDK-ARMd:\robot\robot\Appliciation\general_interface.c
  * @Description:
  *
@@ -45,7 +45,7 @@ void Run4WholeGame(int stage)
 {
     if (stage == 1)
     {
-        move_by_encoder(1, 180);
+        move_by_encoder(1, 160);
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
         Move_CountBar(2, 2, 120);
         Wait_Switches(1);
@@ -122,7 +122,7 @@ void Run4WholeGame(int stage)
     }
     else if (stage == 5)
     {
-        move_by_encoder(1, 180);
+        move_by_encoder(1, 160);
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
         set_speed(0, 0, 0);
         osDelay(500);
@@ -199,7 +199,7 @@ void RedGame2Test(int stage)
     //在红场时需要注意 此时超声波是靠右的
     if (stage == 1)
     {
-        move_by_encoder(1, 180);
+        move_by_encoder(1, 160); //TODO 这里要和后面的stage5对应
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
         Move_CountBar(0, 2, -120);
         Wait_Switches(1);
@@ -270,14 +270,19 @@ void RedGame2Test(int stage)
     {
         ActionGroup(8, 1);
         Wait_Servo_Signal(Wait_Dealy_MAX);
-        move_by_encoder(2, -680);
-        Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
+
+        Red_Run2Home(-500, -100);
         Turn_angle(1, -90, 0);
+        osDelay(500);
+        move_by_encoder(2, 230);
+        Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
+        set_speed(0, 0, 0);
+        set_imu_status(0);
     }
     else if (stage == 5)
     {
         // stage1
-        move_by_encoder(1, 180);
+        move_by_encoder(1, 160);
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
         Move_CountBar(0, 2, -120);
         Wait_Switches(1);
@@ -335,22 +340,40 @@ void RedGame2Test(int stage)
         ActionGroup(4, 1);
         Wait_Servo_Signal(Wait_Dealy_MAX);
         osDelay(2500);
-        ActionGroup(7, 1);
-        Wait_Servo_Signal(Wait_Dealy_MAX);
+
         ActionGroup(5, 1);
         set_speed(0, 0, 0);
         Set_InitYaw(0);
         osDelay(500);
-        //stage4
+        // stage4
         ActionGroup(8, 1);
         Wait_Servo_Signal(Wait_Dealy_MAX);
-        move_by_encoder(2, -780);// TODO 这个参数还需要测试
-        Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
+
+        Red_Run2Home(-500, -100);
         Turn_angle(1, -90, 0);
         osDelay(500);
-        move_by_encoder(2, 230);
+        move_by_encoder(2, 200);
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
-        set_speed(0,0,0);
+        set_speed(0, 0, 0);
         set_imu_status(0);
     }
+}
+void Red_Run2Home(int val, int speed)
+{
+    ActionGroup(6, 1);
+    Wait_Servo_Signal(Wait_Dealy_MAX);
+    while (!Get_HW(1)) //要等到它亮起来
+    {
+        set_speed(0, speed, 0);
+    }
+    set_imu_status(1);
+    set_speed(0, speed, 0);
+    while (Get_HW(1))
+    {
+        osDelay(10);
+    }
+    move_by_encoder(2, val);
+    Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
+    ActionGroup(7, 1);
+    osDelay(200);
 }
