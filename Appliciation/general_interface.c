@@ -2,7 +2,7 @@
  * @Author: peach 1831427532@qq.com
  * @Date: 2022-09-05 14:16:44
  * @LastEditors: peach 1831427532@qq.com
- * @LastEditTime: 2022-09-22 16:19:28
+ * @LastEditTime: 2022-09-22 16:48:35
  * @FilePath: \MDK-ARMd:\robot\robot\Appliciation\general_interface.c
  * @Description:
  *
@@ -207,7 +207,6 @@ void RedGame2Test(int stage)
 
         move_by_encoder(2, 60); // TODO 注意此处的encoder——val参数值 要让车子往y正 和蓝场时区分开的
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
-        Wait_Switches(1); // TODO 重新碰撞
     }
     else if (stage == 2)
     {
@@ -349,10 +348,10 @@ void RedGame2Test(int stage)
         ActionGroup(8, 1);
         Wait_Servo_Signal(Wait_Dealy_MAX);
 
-        Red_Run2Home(-500, -100);
+        Red_Run2Home(-490, -100);//TODO 9_22 16.26确定其为-495
         Turn_angle(1, -90, 0);
         osDelay(500);
-        move_by_encoder(2, 200);
+        move_by_encoder(2, 210);
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
         set_speed(0, 0, 0);
         set_imu_status(0);
