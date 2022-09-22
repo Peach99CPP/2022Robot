@@ -377,7 +377,7 @@ ATK_IMU_t imu =
         .get_angle = Get_Yaw        //函数指针，返回经过限幅和相对0的角度
 };
 
-#define ERROR_THRESHILD 0.05
+#define ERROR_THRESHILD 0.05 //增大漂移限制
 #define INIT_TIMES 150 //TODO 增大稳定程度
 
 #define BUFFER_SIZE 11
