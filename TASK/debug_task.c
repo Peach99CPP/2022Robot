@@ -42,18 +42,24 @@ void Startdebug(void const *argument)
     printf("正在等待指定开关的触发\n");
     while (1)
     {
-        if(Get_SW(3) && Get_SW(5))
+        if ((Get_SW(3) && Get_SW(5)) || (Get_HW(0) && (Get_SW(3) || Get_SW(5))))
         {
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
+            osDelay(2000);
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);
             RedGame2Test(5);
             break;
         }
-        else if(Get_SW(2) && Get_SW(4))
+        else if ((Get_SW(2) && Get_SW(4)) || (Get_HW(2) && (Get_SW(2) || Get_SW(4))))
         {
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_RESET);
+            osDelay(2000);
+            HAL_GPIO_WritePin(GPIOA, GPIO_PIN_12, GPIO_PIN_SET);
             Run4WholeGame(5);
             break;
         }
         else
-        osDelay(10);
+            osDelay(10);
     }
 #ifdef Run_Red
     while (!(Get_SW(3) && Get_SW(5)))

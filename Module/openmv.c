@@ -19,6 +19,16 @@ osThreadId MV_QuertThreadHandle;
 bool MV_QueryTask_Exit = true;
 bool MV_Query_Stae = false;
 uint8_t Rest_QueryTimes = 0;
+int YuanPan_first_flag = 1;
+
+void Set_FirstFlag(int state)
+{
+    YuanPan_first_flag = state;
+}
+int Get_FirstFlag(void)
+{
+    return YuanPan_first_flag;
+}
 /**
  * @description:  开启MV的任务
  * @return {*}
@@ -224,7 +234,16 @@ void MV_Decode(void)
     {
         if (mv_rec.event == MV_Blob)
         {
-            ActionGroup(3, 1);
+            if (Get_FirstFlag())
+            {
+                printf("运行屁用没有动作组,跳过1S\n");
+                Set_FirstFlag(0);
+                ActionGroup(15, 1);
+            }
+            else
+            {
+                ActionGroup(3, 1);
+            }
             // printf("拨球\n");
         }
     }

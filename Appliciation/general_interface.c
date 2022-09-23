@@ -2,7 +2,7 @@
  * @Author: peach 1831427532@qq.com
  * @Date: 2022-09-05 14:16:44
  * @LastEditors: peach 1831427532@qq.com
- * @LastEditTime: 2022-09-22 23:50:03
+ * @LastEditTime: 2022-09-23 11:30:13
  * @FilePath: \MDK-ARMd:\robot\robot\Appliciation\general_interface.c
  * @Description:
  *
@@ -14,7 +14,7 @@
 #define Wait_Dealy_MAX 30000
 #define Line_Type 1
 #define Encoder_Type 2
-#define YuanPanDelay 22* 1000
+#define YuanPanDelay 22 * 1000
 /**
  * @description: 通过调用红外俩计算板子数量
  * @param {int} id使用哪个红外
@@ -132,24 +132,27 @@ void Run4WholeGame(int stage)
         ActionGroup(0, 1);
         move_by_encoder(2, -60); // TODO 9_22 2.27调试为60
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
-        
+
         set_imu_status(0);
         set_speed(40, 0, 0);
         Wait_Servo_Signal(Wait_Dealy_MAX);
-
         MV_SendCmd(1, 0); //使能mv
         osDelay(50);
+        Set_FirstFlag(1);
         MV_SendCmd(2, 1); //设置黄色球为目标球
         osDelay(50);
         Set_QueryState(1);
         printf("进入黄色球等待时间\n");
         osDelay(YuanPanDelay); //设置等待时间
+
         Set_QueryState(0);
         osDelay(100);
+        Set_FirstFlag(1); //跳过第一个球
         MV_SendCmd(2, 2); //蓝色
         osDelay(50);
-        ActionGroup(2, 1);
+        ActionGroup(2, 1); //切换盖板
         Wait_Servo_Signal(Wait_Dealy_MAX);
+
         Set_QueryState(1);
         printf("进入目标球等待时间\n");
         osDelay(YuanPanDelay);
@@ -174,6 +177,7 @@ void Run4WholeGame(int stage)
         Wait_Servo_Signal(Wait_Dealy_MAX);
 
         HWSwitch_Move(1, 1);
+        Wait_Switches(3); // TODO 测试功能
         set_imu_status(0);
         set_speed(-40, 0, 0);
         ActionGroup(4, 1);
@@ -184,7 +188,7 @@ void Run4WholeGame(int stage)
         ActionGroup(5, 1);
         set_speed(0, 0, 0);
         Set_InitYaw(0);
-        
+
         move_by_encoder(2, 680);
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
         Turn_angle(1, -90, 0);
@@ -295,18 +299,21 @@ void RedGame2Test(int stage)
         // stage2
         set_imu_status(0);
         set_speed(40, 0, 0);
-        
+
         Wait_Servo_Signal(Wait_Dealy_MAX);
 
         MV_SendCmd(1, 0); //使能mv
         osDelay(50);
+        Set_FirstFlag(1);
         MV_SendCmd(2, 1); //设置黄色球为目标球
         osDelay(50);
         Set_QueryState(1);
         printf("进入黄球等待时间\n");
         osDelay(YuanPanDelay);
+
         Set_QueryState(0);
         osDelay(100);
+        Set_FirstFlag(1);
         MV_SendCmd(2, 0); //红色
         osDelay(50);
         ActionGroup(2, 1); //转换到目标球的盖板
@@ -350,7 +357,7 @@ void RedGame2Test(int stage)
         ActionGroup(8, 1);
         Wait_Servo_Signal(Wait_Dealy_MAX);
 
-        Red_Run2Home(-490, -100);//TODO 9_22 16.26确定其为-495
+        Red_Run2Home(-490, -100); // TODO 9_22 16.26确定其为-495
         Turn_angle(1, -90, 0);
         osDelay(500);
         move_by_encoder(2, 210);

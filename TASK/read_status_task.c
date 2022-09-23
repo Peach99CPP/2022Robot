@@ -597,7 +597,7 @@ void Wait_Switches(int dir)
     {
         w1 = 1, w2 = 7;
         x_pn = -1, y_pn = 0;
-        MIN_SPEED = 80;
+        MIN_SPEED = 70;
     }
     else if (dir == 4) //¸ºY·½Ïò
     {
