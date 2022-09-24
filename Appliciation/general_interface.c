@@ -2,7 +2,7 @@
  * @Author: peach 1831427532@qq.com
  * @Date: 2022-09-05 14:16:44
  * @LastEditors: peach 1831427532@qq.com
- * @LastEditTime: 2022-09-23 11:30:13
+ * @LastEditTime: 2022-09-23 20:01:35
  * @FilePath: \MDK-ARMd:\robot\robot\Appliciation\general_interface.c
  * @Description:
  *
@@ -24,19 +24,34 @@
  */
 void Move_CountBar(int id, int num, int speed)
 {
-    if (id != 0 && id != 2)
+    if (id != 0 && id != 2 && id != 9)
     {
         printf("选择的红外id有误");
         return;
     }
-    Init_BarCount(id);
-    set_imu_status(1);      // TODO 确认陀螺仪开启状态
-    set_speed(0, speed, 0); // TODO 传参形式设置速度
-    while (Get_BarCount(id) < num)
+    if (id != 9)
     {
-        osDelay(5);
+        Init_BarCount(id);
+        set_imu_status(1);      // TODO 确认陀螺仪开启状态
+        set_speed(0, speed, 0); // TODO 传参形式设置速度
+        while (Get_BarCount(id) < num)
+        {
+            osDelay(5);
+        }
+        osDelay(50);
     }
-    osDelay(200);
+    else
+    {
+        id = 2;
+        Init_BarCount(id);
+        set_imu_status(1);      // TODO 确认陀螺仪开启状态
+        set_speed(0, speed, 0); // TODO 传参形式设置速度
+        while (Get_BarCount(id) < num)
+        {
+            osDelay(5);
+        }
+        osDelay(200);
+    }
     set_speed(0, 0, 0);
     osDelay(100);
 }
@@ -182,7 +197,14 @@ void Run4WholeGame(int stage)
         set_speed(-40, 0, 0);
         ActionGroup(4, 1);
         Wait_Servo_Signal(Wait_Dealy_MAX);
-        osDelay(2500);
+        osDelay(2000);
+        ActionGroup(2, 1);
+        Wait_Servo_Signal(Wait_Dealy_MAX);
+        osDelay(500);
+        ActionGroup(10, 1);
+        Wait_Servo_Signal(Wait_Dealy_MAX);
+        osDelay(1500);
+        
         ActionGroup(7, 1);
         Wait_Servo_Signal(Wait_Dealy_MAX);
         ActionGroup(5, 1);
@@ -197,7 +219,6 @@ void Run4WholeGame(int stage)
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
         set_imu_status(0);
         set_speed(0, 0, 0);
-        ActionGroup(8, 1);
     }
 }
 void RedGame2Test(int stage)
@@ -332,7 +353,7 @@ void RedGame2Test(int stage)
         move_by_encoder(1, -80);
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
 
-        Move_CountBar(2, 2, 120);
+        Move_CountBar(9, 2, 120); //特殊情况 使用9来进行处理
         Turn_angle(1, 180, 0);
         Wait_Switches(3);
 
@@ -347,7 +368,13 @@ void RedGame2Test(int stage)
         set_speed(-40, 0, 0);
         ActionGroup(4, 1);
         Wait_Servo_Signal(Wait_Dealy_MAX);
-        osDelay(2500);
+        osDelay(2000);
+        ActionGroup(2, 1);
+        Wait_Servo_Signal(Wait_Dealy_MAX);
+        osDelay(500);
+        ActionGroup(10, 1);
+        Wait_Servo_Signal(Wait_Dealy_MAX);
+        osDelay(1500);
 
         ActionGroup(5, 1);
         set_speed(0, 0, 0);
@@ -364,6 +391,7 @@ void RedGame2Test(int stage)
         Wait_OKInf(Encoder_Type, Wait_Dealy_MAX);
         set_speed(0, 0, 0);
         set_imu_status(0);
+        ActionGroup(9, 1); //解除折叠
     }
 }
 void Red_Run2Home(int val, int speed)
