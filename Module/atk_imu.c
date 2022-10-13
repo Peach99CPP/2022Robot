@@ -27,7 +27,7 @@ float one_target;
  * @brief  接收串口数据解包流程
  */
 static enum { waitForStartByte1,
-              waitForStartByte2,
+              //waitForStartByte2,
               waitForMsgID,
               waitForDataLength,
               waitForData,
@@ -46,68 +46,42 @@ uint8_t imu901_unpack(uint8_t ch)
 
     switch (rxState)
     {
-    case waitForStartByte1:
+    case waitForStartByte1://数据开头
         if (ch == UP_BYTE1)
         {
-            rxState = waitForStartByte2;
+            rxState = waitForMsgID;
             rxPacket.startByte1 = ch;
         }
 
         cksum = ch;
         break;
 
-    case waitForStartByte2:
-        if (ch == UP_BYTE2 || ch == UP_BYTE2_ACK)
-        {
-            rxState = waitForMsgID;
-            rxPacket.startByte2 = ch;
-        }
-        else
-        {
-            rxState = waitForStartByte1;
-        }
-
-        cksum += ch;
-        break;
-
-    case waitForMsgID:
+  
+    case waitForMsgID://数据ID
         rxPacket.msgID = ch;
-        rxState = waitForDataLength;
+        rxState = waitForData;
         cksum += ch;
+        dataIndex = 0;
         break;
 
-    case waitForDataLength:
-        if (ch <= ATKP_MAX_DATA_SIZE)
-        {
-            rxPacket.dataLen = ch;
-            dataIndex = 0;
-            rxState = (ch > 0) ? waitForData : waitForChksum1; /*ch=0,数据长度为0，校验1*/
-            cksum += ch;
-        }
-        else
-        {
-            rxState = waitForStartByte1;
-        }
+  
 
-        break;
-
-    case waitForData:
-        rxPacket.data[dataIndex] = ch;
+    case waitForData://正式录入有效数据
+        rxPacket.data[dataIndex] = ch;//dataIndex从0开始，作为计算角度的数据
         dataIndex++;
         cksum += ch;
 
-        if (dataIndex == rxPacket.dataLen)
+ 
+        if(dataIndex == 8)
         {
             rxState = waitForChksum1;
         }
-
         break;
 
     case waitForChksum1:
         if (cksum == ch) /*!< 校准正确返回1 */
         {
             rxPacket.checkSum = cksum;
-
             return 1;
         }
         else /*!< 校验错误 */
@@ -137,13 +111,13 @@ void atkpParsing(atkp_t *packet)
     if (packet->msgID == UP_ATTITUDE)
     {
         int16_t data = (int16_t)(packet->data[1] << 8) | packet->data[0];
-        attitude.roll = (float)data / 32768 * 180;
+        attitude.roll = (float)(data / 32768.0 * 180.0);//在相关乘除中强调数据格式
 
         data = (int16_t)(packet->data[3] << 8) | packet->data[2];
-        attitude.pitch = (float)data / 32768 * 180;
+        attitude.pitch = (float)(data / 32768.0 * 180.0);
 
         data = (int16_t)(packet->data[5] << 8) | packet->data[4];
-        attitude.yaw = (float)data / 32768 * 180;
+        attitude.yaw = (float)(data / 32768.0 * 180.0);
     }
     /*****已经在上位机设置了发送的内容，所以下面的内容不会运行*****/
     /* 四元数 */

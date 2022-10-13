@@ -34,19 +34,19 @@
 
 /*模块上行帧头*/
 #define UP_BYTE1 		0x55
-#define UP_BYTE2 		0x55	/*!< 模块主动上传包头2 */
-#define UP_BYTE2_ACK 	0xAF	/*!< 模块指令应答上传包头2 */
+// #define UP_BYTE2 		0x53	/*!< ģ�������ϴ���ͷ2 */
+// #define UP_BYTE2_ACK 	0xAF	/*!< ģ��ָ��Ӧ���ϴ���ͷ2 */
 
 
 /* 模块主动上传指令ID */
 enum upmsgid
 {
-    UP_ATTITUDE		= 0x01,		/*!< 姿态角 */
-    UP_QUAT			= 0x02,		/*!< 四元�? */
-    UP_GYROACCDATA	= 0x03,		/*!< 陀螺仪加速度 */
-    UP_MAGDATA		= 0x04,		/*!< 磁场 */
-    UP_BARODATA		= 0x05,		/*!< 气压�? */
-    UP_D03DATA		= 0x06,		/*!< 端口状�? */
+    UP_ATTITUDE		= 0x53,		/*!< ��̬??? */
+    UP_QUAT			= 0x59,		/*!< ��Ԫ?? */
+    UP_GYROACCDATA	= 0x51,		/*!< �����Ǽ��ٶ� */
+    UP_MAGDATA		= 0x04,		/*!< �ų� */
+    UP_BARODATA		= 0x05,		/*!< ��ѹ?? */
+    UP_D03DATA		= 0x06,		/*!< ??��״?? */
 };
 
 #ifdef REG_Action
